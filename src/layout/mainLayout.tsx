@@ -1,10 +1,10 @@
 import { EHNavigation } from "@/components/navigation/EHNavigation";
-import ReachOut from "@/components/reachout";
+import ReachOut from "@/components/ui/reachout";
 import { Outlet } from "react-router-dom";
 
 export default function MainLayout() {
     return (
-        <div className=" flex flex-col min-h-screen bg-secondary-50  text-primary-800">
+        <main className=" flex flex-col h-screen bg-secondary-50  text-primary">
             <header>
                 <EHNavigation />
             </header>
@@ -17,6 +17,6 @@ export default function MainLayout() {
                     <span className="text-primary-200 text-xs md:text-sm">@{new Date().getFullYear()} All rights reserved</span>
                 </div>
             </div>
-        </div>
+        </main>
     )
 }

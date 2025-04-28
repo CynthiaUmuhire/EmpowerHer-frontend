@@ -31,6 +31,7 @@ export default function App() {
     }
   ])
   return (
+
     <ErrorBoundary>
       <Suspense fallback={<>Carregando...</>}>
         <RouterProvider router={routes} />

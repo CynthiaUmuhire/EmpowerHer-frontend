@@ -1,12 +1,15 @@
-export default function WomenTogether() {
+import { IconProps } from "@/types";
+
+
+export default function WomenTogether({ height = 'full', width = 'full' }: IconProps) {
     return (
-        <svg width="674" height="674" viewBox="0 0 674 674" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+        <svg width={width} height={height} viewBox="0 0 674 674" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
             <g filter="url(#filter0_dd_6_53)">
                 <path d="M25 13C25 8.5817 28.5817 5 33 5H641C645.418 5 649 8.58172 649 13V621C649 625.418 645.418 629 641 629H33C28.5817 629 25 625.418 25 621V13Z" fill="url(#pattern0_6_53)" />
             </g>
             <defs>
-                <filter id="filter0_dd_6_53" x="0" y="0" width="674" height="674" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                <filter id="filter0_dd_6_53" x="0" y="0" width="674" height="674" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                    <feFlood floodOpacity="0" result="BackgroundImageFix" />
                     <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
                     <feOffset dy="20" />
                     <feGaussianBlur stdDeviation="12.5" />
