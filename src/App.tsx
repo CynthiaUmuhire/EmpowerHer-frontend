@@ -3,11 +3,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Links from "./routes/Links"
 import { Toaster } from "sonner"
 import ErrorBoundary from "./components/errorBoundary/errorBoundary"
-import Landing from "./pages/landing/landingPage"
+import Landing from "./pages/landingPage"
 import MainLayout from "./layout/mainLayout"
 
-const Home = lazy(() => import('./pages/home/home'))
-const NotFound = lazy(() => import('./pages/notFound/notFound'))
+const Home = lazy(() => import('./pages/home'))
+const NotFound = lazy(() => import('./pages/notFound'))
 
 export default function App() {
   const routes = createBrowserRouter([

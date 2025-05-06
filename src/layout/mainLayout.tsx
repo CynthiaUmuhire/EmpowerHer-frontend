@@ -4,8 +4,8 @@ import { Outlet } from "react-router-dom";
 
 export default function MainLayout() {
     return (
-        <main className=" flex flex-col h-screen bg-secondary-50  text-primary">
-            <header>
+        <main className=" flex flex-col h-screen bg-secondary-50  text-primary text-sm md:text-base">
+            <header className="px-10">
                 <EHNavigation />
             </header>
             <div className="grow overflow-scroll">

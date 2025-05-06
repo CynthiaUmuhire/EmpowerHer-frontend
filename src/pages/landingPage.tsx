@@ -6,13 +6,11 @@ import SuccessStories from "@/components/ui/successStories";
 
 export default function Landing() {
     const handleGetStarted = () => {
-        // Handle the "Get Started" button click
         console.log("Get Started clicked");
     }
     return (
         <>
             {/* Intro section*/}
-
             <CenteredContent>
                 <section className=" flex gap-10 items-center">
                     <div className=" flex flex-col gap-14 ">
@@ -31,13 +29,11 @@ export default function Landing() {
                             </CustomButton>
                         </div>
                     </div>
-                    <div className=" w-1/2  shrink grow-0">
+                    <div className=" w-1/2  shrink grow-0 hidden md:block">
                         <WomenTogether />
                     </div>
                 </section>
             </CenteredContent>
-
-
             {/* Support groups  section*/}
             <section className=" bg-white py-7">
                 <CenteredContent>
@@ -67,6 +63,18 @@ export default function Landing() {
                         <SuccessStories />
                         <SuccessStories />
 
+                    </div>
+                </CenteredContent>
+            </section>
+
+            <section className="bg-secondary-400 mt-20 py-7 text-secondary-50 font-light">
+                <CenteredContent>
+                    <div className="mx-auto flex flex-col gap-6 items-center justify-center text-center">
+                        <h2 className="font-bold text-xl">Ready to join our community ?</h2>
+                        <p>Connect supportive women who understands your journey</p>
+                        <CustomButton variant={'outline'} onClick={handleGetStarted}>
+                            Get Started Today
+                        </CustomButton>
                     </div>
                 </CenteredContent>
             </section>

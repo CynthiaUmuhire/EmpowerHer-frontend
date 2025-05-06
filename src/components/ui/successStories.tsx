@@ -6,7 +6,7 @@ export default function SuccessStories() {
         <Card className="bg-secondary-50 gap-6 border-0 shadow-md hover:shadow-lg px-4">
             <div className="flex gap-4">
                 <div className="w-12 h-12 shrink-0 rounded-full overflow-hidden">
-                    <img src="../../../public/simbalike.jpg" alt="profile image" className=" object-fit w-full h-full " />
+                    <img src="../../../simbalike.jpg" alt="profile image" className=" object-fit w-full h-full " />
                 </div>
                 <div className="">
                     <h2 className="font-semibold">Sarah johnson</h2>

@@ -13,8 +13,10 @@ export default function CustomButton({ children, disabled, variant = 'default', 
         <Button variant={variant} disabled={disabled} onClick={onClick}
             className={
                 clsx(
-                    " h-12 w-40",
-                    { "bg-red-800 ": variant === 'secondary' }
+                    " h-10 w-32 md:h-12 md:w-40 font-light",
+                    { "bg-primary-800 text-secondary-50 hover:bg-primary-700": variant === 'default' },
+                    { "bg-secondary-400 text-accent-50 hover:bg-secondary-100": variant === 'secondary' },
+                    { "bg-accent-50 text-secondary-400 border border-secondary-400 hover:bg-accent-100 hover:text-secondary-400": variant === 'outline' },
                 )
             }
         >
