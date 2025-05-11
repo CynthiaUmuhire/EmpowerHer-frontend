@@ -22,7 +22,6 @@ function Login() {
                 <span className="text-primary-200 font-light text-sm text-center"> or continue with</span>
             </div>
             <div className="flex justify-around ">
-                <p>Login with USSD Credentials</p>
                 <p>Login with Google</p>
             </div>
         </div>
