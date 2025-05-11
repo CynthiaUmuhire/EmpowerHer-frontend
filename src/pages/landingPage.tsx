@@ -3,6 +3,8 @@ import SupportGroupSummaryCard from "@/components/ui/supportGroupSummaryCard";
 import CenteredContent from "@/components/ui/CenteredContent";
 import WomenTogether from "@/icons/WomenTogether";
 import SuccessStories from "@/components/ui/successStories";
+import { NavLink } from "react-router-dom";
+import Links from "@/routes/Links";
 
 export default function Landing() {
     const handleGetStarted = () => {
@@ -21,9 +23,7 @@ export default function Landing() {
                             Connect with like-minded women, share experiences, and grow together in a safe and supportive environment.
                         </p>
                         <div className="flex gap-4">
-                            <CustomButton onClick={handleGetStarted} variant={'secondary'}>
-                                Get Started
-                            </CustomButton>
+                            <NavLink to={Links.Login} className="rounded-md h-10 w-32 md:h-12 md:w-40 font-light text-center inline-flex items-center justify-center bg-secondary-400 text-accent-50 hover:bg-secondary-100" >Get Started</NavLink>
                             <CustomButton variant={'outline'}>
                                 Read Stories
                             </CustomButton>

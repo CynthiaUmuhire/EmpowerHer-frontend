@@ -5,6 +5,8 @@ import { Toaster } from "sonner"
 import ErrorBoundary from "./components/errorBoundary/errorBoundary"
 import Landing from "./pages/landingPage"
 import MainLayout from "./layout/mainLayout"
+import UnprotectedLayout from "./layout/unProtectedLayout"
+import LoginAndSignUp from "./pages/loginAndSignUp"
 
 const Home = lazy(() => import('./pages/home'))
 const NotFound = lazy(() => import('./pages/notFound'))
@@ -28,12 +30,26 @@ export default function App() {
           element: <Landing />
         }
       ]
+    },
+    {
+      path: Links.app,
+      element: <UnprotectedLayout />,
+      children: [
+        {
+          path: Links.Login,
+          element: <LoginAndSignUp />
+        },
+        {
+          path: Links.Register,
+          element: <LoginAndSignUp />
+        }
+      ]
     }
   ])
   return (
 
     <ErrorBoundary>
-      <Suspense fallback={<>Carregando...</>}>
+      <Suspense fallback={<>Loading...</>}>
         <RouterProvider router={routes} />
       </Suspense>
       <Toaster richColors />
