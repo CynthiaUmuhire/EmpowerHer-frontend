@@ -8,9 +8,10 @@ import MainLayout from "./layout/mainLayout"
 import LoginAndSignUp from "./pages/loginAndSignUp"
 import AuthLayout from "./layout/authLayout"
 import UnprotectedLayout from "./layout/unprotectedLayout"
+import NotFound from "./pages/notFound"
+import Groups from "./pages/groups"
 
 const Home = lazy(() => import('./pages/home'))
-const NotFound = lazy(() => import('./pages/notFound'))
 
 export default function App() {
   const routes = createBrowserRouter([
@@ -21,8 +22,13 @@ export default function App() {
         {
           path: Links.protected.Home,
           element: <Home />,
+        },
+        {
+          path: Links.protected.Groups,
+          element: <Groups />
         }
-      ]
+      ],
+      errorElement: <NotFound />
     },
     {
       path: Links.public.Landing,
@@ -32,7 +38,8 @@ export default function App() {
           path: Links.public.Landing,
           element: <Landing />
         }
-      ]
+      ],
+      errorElement: <NotFound />
     },
     {
       path: Links.auth.auth,
@@ -46,13 +53,9 @@ export default function App() {
           path: Links.auth.Register,
           element: <LoginAndSignUp />
         }
-      ]
-    },
-
-    {
-      path: Links.NotFound,
-      element: <NotFound />,
-    },
+      ],
+      errorElement: <NotFound />
+    }
   ])
   return (
 

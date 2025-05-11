@@ -11,6 +11,7 @@ const ErrorFallback = () => {
 
 const ErrorBoundary: React.FC<Props> = ({ children }) => {
     const handleError = (error: Error, errorInfo: ErrorInfo) => {
+        console.log("ErrorBoundary")
         console.error('ErrorBoundary caught an error: ', error, {
             componentStack: errorInfo.componentStack || 'No stack trace available',
         });
