@@ -1,28 +1,41 @@
 import { } from "sonner"
-import { buttonVariants } from "@/components/ui/button"
-import { Link } from "react-router-dom"
+import CenteredContent from "@/components/ui/CenteredContent"
+import SupportGroup from "@/components/ui/supportGroup"
+import EventsCard from "@/components/ui/eventsCard"
 
 export default function Home() {
   return (
-    <section className="">
-      <div className="mx-auto max-w-screen-xl px-4 py-32">
-        <div className="mx-auto max-w-xl text-center">
-          <h1 className="text-3xl font-extrabold sm:text-5xl">
-            Welcome!
-          </h1>
-
-          <p className="mt-4 sm:text-xl/relaxed">
-            Taking care of your mental health is a priority.
-          </p>
-
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            {/* <Button variant='destructive' onClick={() => toast.success('Boilerplate toast!')}>
-              Toast Example
-            </Button> */}
-            <Link className={buttonVariants({ variant: "link" })} to="/404">Redirect 404</Link>
+    <section className="flex flex-col gap-20 py-20">
+      <section className=" bg-secondary-50 py-20">
+        <h2 className="text-2xl font-bold text-center w-full mb-10">Featured Support Groups</h2>
+        <CenteredContent>
+          <div className="flex overflow-scroll gap-6">
+            <SupportGroup title="Mental Wellness Circle" description="A safe space for discussing mental health and personal growth." members={123} />
+            <SupportGroup title="Mental Wellness Circle" description="A safe space for discussing mental health and personal growth." members={123} />
+            <SupportGroup title="Mental Wellness Circle" description="A safe space for discussing mental health and personal growth." members={123} />
+            <SupportGroup title="Mental Wellness Circle" description="A safe space for discussing mental health and personal growth." members={123} />
+            <SupportGroup title="Mental Wellness Circle" description="A safe space for discussing mental health and personal growth." members={123} />
+            <SupportGroup title="Mental Wellness Circle" description="A safe space for discussing mental health and personal growth." members={123} />
+            <SupportGroup title="Mental Wellness Circle" description="A safe space for discussing mental health and personal growth." members={123} />
+            <SupportGroup title="Mental Wellness Circle" description="A safe space for discussing mental health and personal growth." members={123} />
+            <SupportGroup title="Mental Wellness Circle" description="A safe space for discussing mental health and personal growth." members={123} />
+            <SupportGroup title="Mental Wellness Circle" description="A safe space for discussing mental health and personal growth." members={123} />
+            <SupportGroup title="Mental Wellness Circle" description="A safe space for discussing mental health and personal growth." members={123} />
           </div>
-        </div>
-      </div>
+        </CenteredContent>
+      </section>
+      <section className=" bg-secondary-50 py-20">
+        <CenteredContent>
+          <h2 className="text-2xl font-bold  text-center mb-10 w-full"> Upcoming Events</h2>
+          <div className="flex overflow-scroll gap-6">
+            <EventsCard title="Self-care Workshop" description="Learn practical techniques for maintaining mental and emotional well-being." date="Mar 15, 2025" time='12PM - 16PM' location='workshop' />
+            <EventsCard title="Self-care Workshop" description="Learn practical techniques for maintaining mental and emotional well-being." date="Mar 15, 2025" time='12PM - 16PM' location='workshop' />
+            <EventsCard title="Self-care Workshop" description="Learn practical techniques for maintaining mental and emotional well-being." date="Mar 15, 2025" time='12PM - 16PM' location='workshop' />
+            <EventsCard title="Self-care Workshop" description="Learn practical techniques for maintaining mental and emotional well-being." date="Mar 15, 2025" time='12PM - 16PM' location='workshop' />
+            <EventsCard title="Self-care Workshop" description="Learn practical techniques for maintaining mental and emotional well-being." date="Mar 15, 2025" time='12PM - 16PM' location='workshop' />
+          </div>
+        </CenteredContent>
+      </section>
     </section>
 
   )

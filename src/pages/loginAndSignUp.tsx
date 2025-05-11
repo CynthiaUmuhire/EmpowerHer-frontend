@@ -17,10 +17,10 @@ export default function LoginAndSignUp() {
                 </div>
                 <div className="flex flex-col h-full w-1/2 items-start justify-center p-10 text-primary-400">
                     <div className="flex gap-4 mb-6">
-                        <NavLink to={Links.Login} className={({ isActive }) => isActive ? "text-secondary-400 border-b-2 border-secondary-400 p-4 text-center" : " p-4 text-center"} >Login</NavLink>
-                        <NavLink to={Links.Register} className={({ isActive }) => isActive ? "text-secondary-400 border-b-2 border-secondary-400  p-4 text-center" : "p-4 text-center"}>Register</NavLink>
+                        <NavLink to={Links.auth.Login} className={({ isActive }) => isActive ? "text-secondary-400 border-b-2 border-secondary-400 p-4 text-center" : " p-4 text-center"} >Login</NavLink>
+                        <NavLink to={Links.auth.Register} className={({ isActive }) => isActive ? "text-secondary-400 border-b-2 border-secondary-400  p-4 text-center" : "p-4 text-center"}>Register</NavLink>
                     </div>
-                    {pathname === Links.Login ? <Login /> : <Signup />}
+                    {pathname === Links.auth.Login ? <Login /> : <Signup />}
                 </div>
             </div>
         </section>

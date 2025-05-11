@@ -11,7 +11,7 @@ function Login() {
                 <EHInput placeholder="Password" label={'Your Password'} type="password" />
             </div>
             <div className="flex justify-between">
-                <Link to={Links.Register} className="text-secondary-400 text-sm font-light">No account yet? <strong>Register here</strong></Link>
+                <Link to={Links.auth.Register} className="text-secondary-400 text-sm font-light">No account yet? <strong>Register here</strong></Link>
                 <Link to={'/forgot-password'} className="text-secondary-400 text-sm font-light">Forgot Password?</Link>
             </div>
             <CustomButton variant={'secondary'}>

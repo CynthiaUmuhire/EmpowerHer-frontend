@@ -17,13 +17,13 @@ export default function Landing() {
                 <section className=" flex gap-10 items-center">
                     <div className=" flex flex-col gap-14 ">
                         <h1 className="text-3xl font-extrabold sm:text-5xl">
-                            Find your support community
+                            EmpowerHer
                         </h1>
                         <p className="sm:text-xl/relaxed">
                             Connect with like-minded women, share experiences, and grow together in a safe and supportive environment.
                         </p>
                         <div className="flex gap-4">
-                            <NavLink to={Links.Login} className="rounded-md h-10 w-32 md:h-12 md:w-40 font-light text-center inline-flex items-center justify-center bg-secondary-400 text-accent-50 hover:bg-secondary-100" >Get Started</NavLink>
+                            <NavLink to={Links.auth.Login} className="rounded-md h-10 w-32 md:h-12 md:w-40 font-light text-center inline-flex items-center justify-center bg-secondary-400 text-accent-50 hover:bg-secondary-100" >Get Started</NavLink>
                             <CustomButton variant={'outline'}>
                                 Read Stories
                             </CustomButton>

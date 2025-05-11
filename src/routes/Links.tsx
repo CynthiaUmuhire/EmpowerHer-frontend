@@ -1,8 +1,17 @@
 export default {
-    Home: '/',
+    protected: {
+        Home: '/',
+        Groups: '/groups',
+        Events: '/events',
+        Profile: '/profile',
+    },
+    public: {
+        Landing: '/landing',
+    },
     NotFound: '/404',
-    Landing: '/landing',
-    Login: '/app/login',
-    Register: '/app/register',
-    app: '/app'
+    auth: {
+        auth: '/auth',
+        Login: '/auth/login',
+        Register: '/auth/register'
+    }
 }

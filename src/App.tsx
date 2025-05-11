@@ -5,8 +5,9 @@ import { Toaster } from "sonner"
 import ErrorBoundary from "./components/errorBoundary/errorBoundary"
 import Landing from "./pages/landingPage"
 import MainLayout from "./layout/mainLayout"
-import UnprotectedLayout from "./layout/unProtectedLayout"
 import LoginAndSignUp from "./pages/loginAndSignUp"
+import AuthLayout from "./layout/authLayout"
+import UnprotectedLayout from "./layout/unprotectedLayout"
 
 const Home = lazy(() => import('./pages/home'))
 const NotFound = lazy(() => import('./pages/notFound'))
@@ -14,37 +15,44 @@ const NotFound = lazy(() => import('./pages/notFound'))
 export default function App() {
   const routes = createBrowserRouter([
     {
-      path: Links.Home,
+      path: Links.protected.Home,
       element: <MainLayout />,
       children: [
         {
-          path: Links.Home,
+          path: Links.protected.Home,
           element: <Home />,
-        },
+        }
+      ]
+    },
+    {
+      path: Links.public.Landing,
+      element: <UnprotectedLayout />,
+      children: [
         {
-          path: Links.NotFound,
-          element: <NotFound />,
-        },
-        {
-          path: Links.Landing,
+          path: Links.public.Landing,
           element: <Landing />
         }
       ]
     },
     {
-      path: Links.app,
-      element: <UnprotectedLayout />,
+      path: Links.auth.auth,
+      element: <AuthLayout />,
       children: [
         {
-          path: Links.Login,
+          path: Links.auth.Login,
           element: <LoginAndSignUp />
         },
         {
-          path: Links.Register,
+          path: Links.auth.Register,
           element: <LoginAndSignUp />
         }
       ]
-    }
+    },
+
+    {
+      path: Links.NotFound,
+      element: <NotFound />,
+    },
   ])
   return (
 

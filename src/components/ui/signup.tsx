@@ -13,7 +13,7 @@ export default function Signup() {
                 <EHInput placeholder="Confirm Password" label={'Confirm Password'} type="password" />
             </div>
             <div className="flex justify-between flex-row-reverse">
-                <Link to={Links.Login} className="text-secondary-400 text-sm font-light ">Already have an account? <strong>Login</strong></Link>
+                <Link to={Links.auth.Login} className="text-secondary-400 text-sm font-light ">Already have an account? <strong>Login</strong></Link>
             </div>
             <CustomButton variant={'secondary'}>
                 Register
