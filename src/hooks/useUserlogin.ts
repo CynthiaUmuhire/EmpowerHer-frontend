@@ -1,4 +1,6 @@
 import api from "@/api/api";
+import queryClient from "@/api/queryClient";
+import { USER_QUERY_KEY } from "@/constants/queryKeys";
 import { UserLoginData } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 
@@ -11,7 +13,8 @@ export default function useUserLogin() {
         },
         onSuccess: (data) => {
             localStorage.setItem('token', data.jwt);
-            localStorage.setItem('user', JSON.stringify(data.user))
+            queryClient.invalidateQueries
+                ({ queryKey: USER_QUERY_KEY })
         },
         onError: (error) => {
             console.error("Login failed:", error);

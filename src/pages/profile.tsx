@@ -11,6 +11,7 @@ export default function Profile() {
     console.log('User Info:', user);
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('userRole');
         navigate(Links.auth.Login, { replace: true });
     }
     return (

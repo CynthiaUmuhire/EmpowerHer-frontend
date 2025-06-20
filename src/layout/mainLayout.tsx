@@ -8,7 +8,6 @@ export default function MainLayout() {
     const navigate = useNavigate();
     const [checkedAuth, setCheckedAuth] = useState(false);
     const isAuthenticated = localStorage.getItem('token') !== null;
-
     useEffect(() => {
         if (!isAuthenticated) {
             navigate(Links.auth.Login, { replace: true });

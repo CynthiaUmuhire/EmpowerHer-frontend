@@ -12,6 +12,7 @@ export interface User {
   createdAt: string;
   updatedAt: string;
   profilePicture?: string;
+  role: string;
 }
 export interface NewUser {
   name: string;
