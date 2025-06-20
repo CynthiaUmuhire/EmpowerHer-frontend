@@ -12,6 +12,8 @@ import NotFound from "./pages/notFound"
 import Groups from "./pages/groups"
 import { QueryClientProvider } from "@tanstack/react-query"
 import queryClient from "./api/queryClient"
+import Profile from "./pages/profile"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 const Home = lazy(() => import('./pages/home'))
 
@@ -28,6 +30,10 @@ export default function App() {
         {
           path: Links.protected.Groups,
           element: <Groups />
+        },
+        {
+          path: Links.protected.Profile,
+          element: <Profile />
         }
       ],
       errorElement: <NotFound />
@@ -64,6 +70,7 @@ export default function App() {
       <ErrorBoundary>
         <Suspense fallback={<>Loading...</>}>
           <RouterProvider router={routes} />
+          <ReactQueryDevtools initialIsOpen={false} />
         </Suspense>
         <Toaster richColors />
       </ErrorBoundary>
