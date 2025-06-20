@@ -10,6 +10,8 @@ import AuthLayout from "./layout/authLayout"
 import UnprotectedLayout from "./layout/unprotectedLayout"
 import NotFound from "./pages/notFound"
 import Groups from "./pages/groups"
+import { QueryClientProvider } from "@tanstack/react-query"
+import queryClient from "./api/queryClient"
 
 const Home = lazy(() => import('./pages/home'))
 
@@ -58,13 +60,14 @@ export default function App() {
     }
   ])
   return (
-
-    <ErrorBoundary>
-      <Suspense fallback={<>Loading...</>}>
-        <RouterProvider router={routes} />
-      </Suspense>
-      <Toaster richColors />
-    </ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <ErrorBoundary>
+        <Suspense fallback={<>Loading...</>}>
+          <RouterProvider router={routes} />
+        </Suspense>
+        <Toaster richColors />
+      </ErrorBoundary>
+    </QueryClientProvider>
 
   )
 }

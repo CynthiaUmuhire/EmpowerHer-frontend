@@ -1,0 +1,21 @@
+import { User } from '@/types';
+import api from '@/api/api';
+import { useQuery } from '@tanstack/react-query';
+import { USER_QUERY_KEY } from '@/constants/queryKeys';
+
+export default function useUserInfo() {
+  const { data, isLoading } = useQuery({
+    queryKey: USER_QUERY_KEY,
+    queryFn: async () => {
+      const user = await api.getUserInfo();
+      return user;
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    gcTime: 1000 * 60 * 60, // 1 hour
+  });
+  return {
+    user: data as User,
+    isLoading: isLoading
+  };
+}
+

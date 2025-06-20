@@ -1,75 +1,72 @@
-import { register } from "module";
+import { NewUser, UserLoginData } from "@/types";
+import strapi from "./strapi";
 
-const baseUrl = process.env.BACKEND_URL || 'http://localhost:3000';
-
-  const api = {
+const api = {
     getAllSupportGroups: async () => {
-        const response = await fetch(`${baseUrl}/api/groups`);
-        if (!response.ok) {
+        const response = await strapi.get('/groups');
+        if (!response.data) {
             throw new Error('Failed to fetch support groups');
         }
-        return response.json();
+        return response.data;
     },
     getSupportGroupById: async (id: string) => {
-        const response = await fetch(`${baseUrl}/api/groups/${id}`);
-        if (!response.ok) {
+        const response = await strapi.get(`/groups/${id}`);
+        if (!response.data) {
             throw new Error('Failed to fetch support group');
         }
-        return response.json();
+        return response.data;
     },
     getAllEvents: async () => {
-        const response = await fetch(`${baseUrl}/api/events`);
-        if (!response.ok) {
+        const response = await strapi.get('/events');
+        if (!response.data) {
             throw new Error('Failed to fetch events');
         }
-        return response.json();
+        return response.data;
     },
     getEventById: async (id: string) => {
-        const response = await fetch(`${baseUrl}/api/events/${id}`);
-        if (!response.ok) {
+        const response = await strapi.get(`/events/${id}`);
+        if (!response.data) {
             throw new Error('Failed to fetch event');
         }
-        return response.json();
+        return response.data;
     },
-    login : async (phoneNumber, password) => {
-        const response = await fetch(`${baseUrl}/api/auth/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 
-                identifier: phoneNumber,
-                password: password
-             }),
-        });
-        if (!response.ok) {
+    login: async (loginData: UserLoginData) => {
+        const response = await strapi.post('/auth/local', loginData);
+
+
+        if (!response) {
             throw new Error('Failed to login');
         }
-        const data = await response.json();
-        
+        const data = await response.data;
         return data;
     },
 
-    register: async (name, phoneNumber, password, email) => {
-        const response = await fetch(`${baseUrl}/api/auth/local/register`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 
-                username: name,
-                phoneNumber: phoneNumber,
-                password: password,
-                email: email
-             }),
+    register: async (user: NewUser) => {
+        const userPayload = {
+            username: user.name,
+            phoneNumber: user.phoneNumber,
+            email: user.email,
+            password: user.password,
+            role: user.role
+        }
+        const response = await strapi.post('/register', {
+            data: userPayload
         });
-        if (!response.ok) {
+        if (!response.data) {
             throw new Error('Failed to register');
         }
-        const data = await response.json();
-        
+        const data = await response.data;
+
         return data;
-    }
+    },
+    getUserInfo: async () => {
+        const response = await strapi.get('/users/me');
+        if (!response.data) {
+            throw new Error('Failed to fetch user info');
+        }
+        const data = await response.data;
+        return data;
+    },
 }
 
 export default api;

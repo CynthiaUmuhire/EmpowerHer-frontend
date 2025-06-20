@@ -13,7 +13,7 @@ export default function Events() {
                     </div>
                 </div>
                 <div>
-                    <h2 className="text-2xl font-bold text-center w-full mb-10">Discover Groups</h2>
+                    <h2 className="text-2xl font-bold text-center w-full mb-10">Discover Events</h2>
                     <div>
                         <p className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                             {/* Add your group cards here */}
