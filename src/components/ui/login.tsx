@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom"
 import EHInput from "./EHInput"
 import Links from "@/routes/Links"
 import CustomButton from "./customButton"
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import api from "@/api/api";
 import useUserLogin from "@/hooks/useUserlogin";
 import Spinner from "./spinner";
@@ -22,13 +22,16 @@ function Login() {
         }
 
         login({ identifier, password });
-        if (isSuccess) {
-            console.log("Login successful");
-            navigate(Links.protected.Home);
-        } else if (isError) {
+        if (isError) {
             alert("Login failed. Please check your credentials.");
         }
     }
+    useEffect(() => {
+        if (isSuccess) {
+            console.log("Login successful");
+            navigate(Links.protected.Home);
+        }
+    }, [isSuccess, navigate]);
     return (
         <div className='flex flex-col w-full gap-6'>
             <div className="flex flex-col gap-6 ">

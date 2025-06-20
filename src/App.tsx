@@ -14,8 +14,7 @@ import { QueryClientProvider } from "@tanstack/react-query"
 import queryClient from "./api/queryClient"
 import Profile from "./pages/profile"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
-
-const Home = lazy(() => import('./pages/home'))
+import Home from "./pages/home"
 
 export default function App() {
   const routes = createBrowserRouter([
@@ -66,15 +65,15 @@ export default function App() {
     }
   ])
   return (
-    <QueryClientProvider client={queryClient}>
-      <ErrorBoundary>
-        <Suspense fallback={<>Loading...</>}>
+    <ErrorBoundary>
+      <Suspense fallback={<>Loading...</>}>
+        <QueryClientProvider client={queryClient}>
           <RouterProvider router={routes} />
           <ReactQueryDevtools initialIsOpen={false} />
-        </Suspense>
-        <Toaster richColors />
-      </ErrorBoundary>
-    </QueryClientProvider>
+        </QueryClientProvider>
+      </Suspense>
+      <Toaster richColors />
+    </ErrorBoundary>
 
   )
 }

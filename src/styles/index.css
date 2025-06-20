@@ -124,7 +124,3 @@
   font-stretch: normal;
   src: url();
 }
-
-.container > * {
-  /* @apply max-w-7xl mx-auto bg-red-600;  */
-}
