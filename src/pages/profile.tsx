@@ -8,10 +8,11 @@ import { useNavigate } from "react-router-dom";
 export default function Profile() {
     const { user, isLoading } = useUserInfo();
     const navigate = useNavigate();
-    console.log('User Info:', user);
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('userRole');
+        localStorage.removeItem('userId');
         navigate(Links.auth.Login, { replace: true });
     }
     return (

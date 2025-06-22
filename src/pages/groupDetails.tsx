@@ -1,6 +1,7 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import CenteredContent from "@/components/ui/CenteredContent";
 import CustomButton from "@/components/ui/customButton";
+import { RequestToJoinForm } from "@/components/ui/requestToJoinGroup";
 import Spinner from "@/components/ui/spinner";
 import TypeBadge from "@/components/ui/typeBadge";
 import useGroupDetails from "@/hooks/useGroupDetails";
@@ -10,6 +11,7 @@ import { Link, useParams } from "react-router-dom";
 export default function GroupDetails() {
     const { groupId } = useParams<{ groupId: string }>();
     const { group: groupDetails, isLoading, isError } = useGroupDetails(groupId);
+
     return (
         <CenteredContent>
             {isLoading && (
@@ -91,7 +93,7 @@ export default function GroupDetails() {
                                     </div>
                                     <div className="flex items-center text-sm">
                                         <Phone className="w-4 h-4 mr-3 text-primary-500" />
-                                        <span>Hard code phone</span>
+                                        <span>{groupDetails.assistantContact}</span>
                                     </div>
 
                                     <div className="pt-4 border-t">
@@ -108,12 +110,13 @@ export default function GroupDetails() {
                             {/* Action Buttons */}
                             <Card className="bg-white shadow-md  border-primary-200">
                                 <CardContent className="p-6 space-y-3 flex flex-col w-full ">
-                                    <Link to={`/support-groups/${groupDetails.documentId}/join`} className="w-full bg-primary-600 ">
-                                        Join This Group
-                                    </Link>
+                                    <RequestToJoinForm
+                                        groupId={groupId || ''}
+
+                                    />
                                     <CustomButton variant="outline" >
                                         <MessageCircle className="w-4 h-4 mr-2" />
-                                        Contact Facilitator
+                                        Contact Facilitator : {groupDetails.email}
                                     </CustomButton>
                                     <CustomButton variant="outline">
                                         <Share2 className="w-4 h-4 mr-2" />

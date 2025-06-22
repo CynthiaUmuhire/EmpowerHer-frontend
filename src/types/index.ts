@@ -13,6 +13,7 @@ export interface User {
   updatedAt: string;
   profilePicture?: string;
   role: string;
+  documentId: string;
 }
 export interface NewUser {
   name: string;
