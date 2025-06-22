@@ -36,3 +36,25 @@ export type NullableTokens = {
   accessToken: string | null;
   refreshToken: string | null;
 };
+
+export type Group = {
+  id: number;
+  name: string;
+  description: string;
+  email: string;
+  isVerified: boolean;
+  website: string;
+  assistantContact: string;
+  groupstatus: string;
+  members: number;
+  coverImage: string;
+  documentId: string;
+  createdAt: string;
+}
+
+export enum GroupStatus {
+  ACTIVE = 'Active',
+  INACTIVE = 'Inactive',
+  REVIEWING = 'Reviewing'
+}
+

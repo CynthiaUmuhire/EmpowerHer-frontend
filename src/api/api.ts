@@ -1,9 +1,17 @@
 import { NewUser, UserLoginData } from "@/types";
 import strapi from "./strapi";
-
+import { strapiUrlQueryBuilder } from "@/utils/strapiUrlQueryBuilder";
+const userPopulateFields = [
+    'role',
+    'profilePicture'
+]
+const groupPopulateFields = [
+    // 'facilitators',
+    'coverImage'
+]
 const api = {
     getAllSupportGroups: async () => {
-        const response = await strapi.get('/groups');
+        const response = await strapi.get(`/groups?${strapiUrlQueryBuilder(...groupPopulateFields)}`);
         if (!response.data) {
             throw new Error('Failed to fetch support groups');
         }
@@ -60,7 +68,7 @@ const api = {
         return data;
     },
     getUserInfo: async () => {
-        const response = await strapi.get('/users/me');
+        const response = await strapi.get(`/users/me?${strapiUrlQueryBuilder(...userPopulateFields)}`);
         if (!response.data) {
             throw new Error('Failed to fetch user info');
         }

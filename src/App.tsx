@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react"
+import { Suspense } from "react"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Links from "./routes/Links"
 import { Toaster } from "sonner"
@@ -15,6 +15,7 @@ import queryClient from "./api/queryClient"
 import Profile from "./pages/profile"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import Home from "./pages/home"
+import GroupDetails from "./pages/groupDetails"
 
 export default function App() {
   const routes = createBrowserRouter([
@@ -28,7 +29,12 @@ export default function App() {
         },
         {
           path: Links.protected.Groups,
-          element: <Groups />
+          element: <Groups />,
+
+        },
+        {
+          path: `${Links.protected.Groups}/:groupId`,
+          element: <GroupDetails />
         },
         {
           path: Links.protected.Profile,

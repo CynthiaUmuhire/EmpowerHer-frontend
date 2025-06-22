@@ -3,7 +3,7 @@ export default {
         Home: '/',
         Groups: '/groups',
         Events: '/events',
-        Profile: '/profile',
+        Profile: '/profile'
     },
     public: {
         Landing: '/landing',
