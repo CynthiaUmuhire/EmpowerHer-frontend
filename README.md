@@ -4,6 +4,9 @@ EmpowerHer-frontend is a react website that groups together support groups that 
 ### Github Repo
 https://github.com/CynthiaUmuhire/EmpowerHer-frontend
 
+### Backend repo
+https://github.com/CynthiaUmuhire/EmpowerHer-Backend.git
+
 ## How to set up the project
 1. Clone the github repo provided above
 2. Create e `.env` file and paste the contents of the `.env.example` file.
