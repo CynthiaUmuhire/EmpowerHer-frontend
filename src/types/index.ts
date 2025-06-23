@@ -3,6 +3,15 @@ export interface IconProps {
   width?: string;
 }
 
+export interface Registration {
+  id: number;
+  documentId: User;
+  notes: string;
+  registrationStatus: 'Pending' | 'Approved' | 'Rejected';
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export interface User {
   id: number;
@@ -14,6 +23,7 @@ export interface User {
   profilePicture?: string;
   role: string;
   documentId: string;
+  registrations?: Registration[];
 }
 export interface NewUser {
   name: string;

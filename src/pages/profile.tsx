@@ -9,6 +9,7 @@ export default function Profile() {
     const { user, isLoading } = useUserInfo();
     const navigate = useNavigate();
 
+    console.log('User registrations:', user);
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('userRole');
@@ -65,6 +66,28 @@ export default function Profile() {
                 </CenteredContent>
             </section>
 
+            <section>
+                <CenteredContent>
+                    <h2 className="text-2xl font-semibold mb-4">Current Registrations</h2>
+                    <Card className="border-primary-100  bg-secondary-50 ">
+                        <CardContent>
+                            {/* {user.registrations && user.registrations.length > 0 ? (
+                                <ul className="space-y-4">
+                                    {user.registrations.map((registration) => (
+                                        <li key={registration.id} className="p-4 border rounded-md bg-white shadow-sm">
+                                            <p className="text-gray-600">Status: {registration.registrationStatus}</p>
+                                            <p className="text-gray-600">Notes: {registration.notes || 'No notes provided'}</p>
+                                            <p className="text-gray-600">Requested on: {new Date(registration.createdAt).toLocaleDateString()}</p>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p className="text-gray-600">You have no current registrations.</p>
+                            )} */}
+                        </CardContent>
+                    </Card>
+                </CenteredContent>
+            </section>
         </section>
     );
 }

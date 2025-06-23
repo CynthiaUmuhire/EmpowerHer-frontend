@@ -3,7 +3,8 @@ import strapi from "./strapi";
 import { strapiUrlQueryBuilder } from "@/utils/strapiUrlQueryBuilder";
 const userPopulateFields = [
     'role',
-    'profilePicture'
+    'profilePicture',
+    'registrations'
 ]
 const groupPopulateFields = [
     // 'facilitators',
