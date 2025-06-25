@@ -24,7 +24,7 @@ export default function App() {
       element: <MainLayout />,
       children: [
         {
-          path: Links.protected.Home,
+          index: true,
           element: <Home />,
         },
         {
