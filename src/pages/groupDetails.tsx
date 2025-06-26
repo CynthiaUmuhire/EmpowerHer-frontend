@@ -1,17 +1,32 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import CenteredContent from "@/components/ui/CenteredContent";
 import CustomButton from "@/components/ui/customButton";
+import EmailTemplate from "@/components/ui/emailTemplate";
 import { RequestToJoinForm } from "@/components/ui/requestToJoinGroup";
 import Spinner from "@/components/ui/spinner";
 import TypeBadge from "@/components/ui/typeBadge";
 import useGroupDetails from "@/hooks/useGroupDetails";
+import useUserInfo from "@/hooks/useUserInfo";
 import Links from "@/routes/Links";
-import { ArrowLeft, MapPin, MessageCircle, Phone, Share2, Users } from "lucide-react";
+import { ArrowLeft, MapPin, Phone, Share2, Users } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
+import { Resend } from 'resend';
+const key = import.meta.env.RESEND_API_KEY;
 export default function GroupDetails() {
     const { groupId } = useParams<{ groupId: string }>();
     const { group: groupDetails, isLoading, isError } = useGroupDetails(groupId);
+    const { user } = useUserInfo();
 
+    const resend = new Resend('re_Q9bJnYTs_9yaGHxEPAZ2E6jT4zcbo3FyU');
+    const handleContactFacilitator = async () => {
+        const res = await resend.emails.send({
+            from: 'you@example.com',
+            to: 'user@gmail.com',
+            subject: 'Facilitator Contact Request',
+            react: <EmailTemplate name={user.username} email={user.phoneNumber} />,
+        });
+        console.log('Email sent successfully:', res);
+    }
     return (
         <CenteredContent>
             {isLoading && (
@@ -48,7 +63,7 @@ export default function GroupDetails() {
                             </div>
                         </div>
                     </div>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 bg-primary-50 justify-around items-start px-4 sm:px-6 lg:px-8 py-8 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2  bg-secondary-50 justify-around items-start px-4 sm:px-6 lg:px-8 py-8 gap-6">
                         {/* The main content section */}
                         <div className="">
                             <div className="space-y-6">
@@ -112,13 +127,11 @@ export default function GroupDetails() {
                                 <CardContent className="p-6 space-y-3 flex flex-col w-full ">
                                     <RequestToJoinForm
                                         groupId={groupId || ''}
-
                                     />
-                                    <CustomButton variant="outline" >
-                                        <MessageCircle className="w-4 h-4 mr-2" />
-                                        Contact Facilitator : {groupDetails.email}
+                                    <CustomButton variant="outline" onClick={handleContactFacilitator}>
+                                        Contact Facilitator
                                     </CustomButton>
-                                    <CustomButton variant="outline">
+                                    <CustomButton variant="outline" >
                                         <Share2 className="w-4 h-4 mr-2" />
                                         Share Group
                                     </CustomButton>

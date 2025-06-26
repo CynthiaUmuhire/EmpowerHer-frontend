@@ -3,14 +3,20 @@ export interface IconProps {
   width?: string;
 }
 
+export enum RegistrationStatus {
+  PENDING = 'Pending',
+  APPROVED = 'Approved',
+  REJECTED = 'Rejected'
+}
 export interface Registration {
   id: number;
   documentId: User;
   notes: string;
-  registrationStatus: 'Pending' | 'Approved' | 'Rejected';
+  registrationStatus: RegistrationStatus;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
+  publishedAt: string | null;
 }
 
 export interface User {
@@ -24,6 +30,8 @@ export interface User {
   role: string;
   documentId: string;
   registrations?: Registration[];
+  firstName: string;
+  lastName: string;
 }
 export interface NewUser {
   name: string;

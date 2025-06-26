@@ -38,7 +38,6 @@ export default function useJoinGroup({ groupId, onClose }: { groupId: string, on
             return response.data;
         },
         onSuccess: () => {
-            // Invalidate user's requests
             queryClient.invalidateQueries({ queryKey: ['group', groupId] }); // Invalidate group details to show pending status
             alert('Registration request submitted successfully!'); // Replace with a proper toast/notification
             onClose();

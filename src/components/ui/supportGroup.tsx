@@ -21,10 +21,6 @@ export default function SupportGroup({ title, description, members, coverImage, 
                 <div className="flex justify-between">
                     <p className="font-light italic ">{members} members</p>
                     <Link to={`${Links.protected.Groups}/${groupId}`} className="text-secondary-400 hover:underline flex items-center gap-1 font-extralight" > Read More</Link>
-                    <Link to="#" className="text-secondary-400 hover:underline flex items-center gap-1 font-extralight">
-                        Join Group<IoIosArrowRoundForward className="size-6" />
-                    </Link>
-
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { User } from '@/types';
+import { Registration, User } from '@/types';
 import api from '@/api/api';
 import { useQuery } from '@tanstack/react-query';
 import { USER_QUERY_KEY } from '@/constants/queryKeys';
@@ -16,11 +16,11 @@ export default function useUserInfo() {
     select: (data) => {
       localStorage.setItem('userRole', data.role.type);
       localStorage.setItem('userId', data.documentId);
-      console.log('User data:', data.registrations);
       return {
         ...data,
         role: data.role.type,
         profilePicture: generateImageUrl(data.profilePicture?.url),
+        registrations: data.registrations.filter((registration: Registration) => registration.publishedAt !== null && registration.isActive)
       };
     }
   });
