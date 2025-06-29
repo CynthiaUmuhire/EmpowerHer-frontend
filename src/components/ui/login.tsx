@@ -53,7 +53,7 @@ function Login() {
             )}
             {currentStep === 2 && (
                 <><div className="flex flex-col gap-6 ">
-                    <EHInput placeholder="Enter your phone number" label={'Your phone number'} type='tel' ref={identifierRef} />
+                    <EHInput placeholder="Phone or username" label={'User name or phone number'} type='tel' ref={identifierRef} />
                     <EHInput placeholder="Password" label={'Your Password'} type="password" ref={passwordRef} />
                 </div><div className="flex justify-between">
                         <Link to={Links.auth.Register} className="text-secondary-400 text-sm font-light">No account yet? <strong>Register here</strong></Link>

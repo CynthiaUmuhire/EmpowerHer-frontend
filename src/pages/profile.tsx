@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import CenteredContent from "@/components/ui/CenteredContent";
 import CustomButton from "@/components/ui/customButton";
+import Spinner from "@/components/ui/spinner";
 import TypeBadge from "@/components/ui/typeBadge";
 import useUserInfo from "@/hooks/useUserInfo";
 import Links from "@/routes/Links";
@@ -10,8 +11,7 @@ import { useNavigate } from "react-router-dom";
 export default function Profile() {
     const { user, isLoading } = useUserInfo();
     const navigate = useNavigate();
-
-    console.log('User registrations:', user);
+    console.log('Use==========', (!isLoading && user));
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('userRole');
@@ -32,7 +32,11 @@ export default function Profile() {
     };
     return (
         <section className="flex flex-col gap-20 py-20">
-            {isLoading && (<div>Loading...</div>)}
+            {isLoading && (<section>
+                <CenteredContent>
+                    <Spinner />
+                </CenteredContent>
+            </section>)}
             {!isLoading && user && (
                 <>
                     <section>
@@ -71,7 +75,7 @@ export default function Profile() {
                                                 <li key={registration.id} className="p-4 flex flex-col gap-2 border rounded-md bg-white shadow-sm text-primary-400">
                                                     <span> Status:  <TypeBadge type={registration.registrationStatus} variant={getBadgeColors(registration.registrationStatus)} /></span>
                                                     <p>Notes: {registration.notes || 'No notes provided'}</p>
-                                                    <p >Requested on: {new Date(registration.createdAt).toLocaleDateString()}</p>
+                                                    <p>Requested on: {new Date(registration.createdAt).toLocaleDateString()}</p>
                                                 </li>
                                             ))}
                                         </ul>
@@ -82,27 +86,26 @@ export default function Profile() {
                             </Card>
                         </CenteredContent>
                     </section>
-                    <section>
-                        <CenteredContent>
-                            <h2 className="text-2xl font-semibold mb-4">Settings</h2>
-                            <Card className="border-primary-100  bg-secondary-50 ">
-                                <CardContent>
-                                    <div className="flex flex-col gap-4">
-                                        <p className="text-primary-400">Manage your account settings, including password changes and log out.</p>
-                                        <CustomButton variant='destructive' onClick={handleLogout}>
-                                            Log out
-                                        </CustomButton>
-                                        <CustomButton variant='secondary'>
-                                            Change Password
-                                        </CustomButton>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </CenteredContent>
-                    </section>
-
                 </>
             )}
+            <section>
+                <CenteredContent>
+                    <h2 className="text-2xl font-semibold mb-4">Settings</h2>
+                    <Card className="border-primary-100  bg-secondary-50 ">
+                        <CardContent>
+                            <div className="flex flex-col gap-4">
+                                <p className="text-primary-400">Manage your account settings, including password changes and log out.</p>
+                                <CustomButton variant='destructive' onClick={handleLogout}>
+                                    Log out
+                                </CustomButton>
+                                <CustomButton variant='secondary'>
+                                    Change Password
+                                </CustomButton>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </CenteredContent>
+            </section>
         </section>
     );
 }

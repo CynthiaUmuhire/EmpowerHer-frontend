@@ -16,6 +16,7 @@ import Profile from "./pages/profile"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import Home from "./pages/home"
 import GroupDetails from "./pages/groupDetails"
+import Events from "./pages/events"
 
 export default function App() {
   const routes = createBrowserRouter([
@@ -39,6 +40,10 @@ export default function App() {
         {
           path: Links.protected.Profile,
           element: <Profile />
+        },
+        {
+          path: Links.protected.Events,
+          element: <Events />
         }
       ],
       errorElement: <NotFound />

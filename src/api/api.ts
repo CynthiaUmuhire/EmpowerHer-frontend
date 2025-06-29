@@ -10,6 +10,12 @@ const groupPopulateFields = [
     // 'facilitators',
     'coverImage'
 ]
+
+const eventPopulateFields = [
+    'group',
+    'rsvps',
+    'image'
+]
 const api = {
     getAllSupportGroups: async () => {
         const response = await strapi.get(`/groups?${strapiUrlQueryBuilder(...groupPopulateFields)}`);
@@ -26,7 +32,7 @@ const api = {
         return response.data;
     },
     getAllEvents: async () => {
-        const response = await strapi.get('/events');
+        const response = await strapi.get(`/events?${strapiUrlQueryBuilder(...eventPopulateFields)}`);
         if (!response.data) {
             throw new Error('Failed to fetch events');
         }
@@ -56,7 +62,9 @@ const api = {
             phoneNumber: user.phoneNumber,
             email: user.email,
             password: user.password,
-            role: user.role
+            role: user.role,
+            firstname: user.firstName,
+            lastname: user.lastName
         }
         const response = await strapi.post('/register', {
             data: userPayload

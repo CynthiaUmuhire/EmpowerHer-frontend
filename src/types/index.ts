@@ -39,6 +39,8 @@ export interface NewUser {
   phoneNumber: string;
   password: string;
   role: 'mother' | 'facilitator';
+  firstName: string;
+  lastName: string;
 }
 
 export type UserLoginData = {

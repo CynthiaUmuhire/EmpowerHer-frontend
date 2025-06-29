@@ -19,7 +19,9 @@ export default function useRegisterUser() {
                 phoneNumber: userData.phoneNumber,
                 password: userData.password,
                 email: userData.email,
-                role: userData.role
+                role: userData.role,
+                firstName: userData.firstName,
+                lastName: userData.lastName
             });
             return response;
         },

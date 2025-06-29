@@ -13,6 +13,8 @@ export default function Signup() {
     const confirmPasswordRef = useRef<HTMLInputElement>(null);
     const usernameRef = useRef<HTMLInputElement>(null);
     const roleRef = useRef<HTMLSelectElement>(null);
+    const firstNameRef = useRef<HTMLInputElement>(null);
+    const lastNameRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate()
     const { registerUser, isPending, isRegistrationSuccess, isError } = useRegisterUser()
 
@@ -23,6 +25,8 @@ export default function Signup() {
         const confirmPassword = confirmPasswordRef.current?.value;
         const username = usernameRef.current?.value;
         const role = roleRef.current?.value;
+        const firstName = firstNameRef.current?.value;
+        const lastName = lastNameRef.current?.value;
         // TODO: make a better call here !!!
         if (password !== confirmPassword) {
             alert("Passwords do not match");
@@ -33,7 +37,9 @@ export default function Signup() {
             email: email || '',
             phoneNumber: phoneNumber || '',
             password: password || '',
-            role: role as 'mother' | 'facilitator'
+            role: role as 'mother' | 'facilitator',
+            firstName: firstName || '',
+            lastName: lastName || ''
         })
         if (isRegistrationSuccess) {
             console.log("Registration successful");
@@ -47,6 +53,10 @@ export default function Signup() {
     return (
         <div className='flex flex-col w-full gap-3'>
             <div className="flex flex-col gap-4 ">
+                <div className="flex gap-6 items-center">
+                    <EHInput placeholder="Enter your first name" label={'First Name'} type='text' ref={firstNameRef} />
+                    <EHInput placeholder="Enter your last name" label={'Last Name'} type='text' ref={lastNameRef} />
+                </div>
                 <EHInput placeholder="Enter your preferred name" label={'User name'} type='text' ref={usernameRef} />
                 <div className="flex justify-between items-center">
                     <p>Pick a role</p>

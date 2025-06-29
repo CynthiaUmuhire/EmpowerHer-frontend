@@ -12,9 +12,10 @@ export default function useUserLogin() {
             return data;
         },
         onSuccess: (data) => {
+            console.log("Login successful", data);
             localStorage.setItem('token', data.jwt);
-            queryClient.invalidateQueries
-                ({ queryKey: USER_QUERY_KEY })
+            //     queryClient.invalidateQueries
+            //         // ({ queryKey: USER_QUERY_KEY })
         },
         onError: (error) => {
             console.error("Login failed:", error);
