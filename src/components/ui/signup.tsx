@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import CustomButton from "./customButton";
 import EHInput from "./EHInput";
 import Links from "@/routes/Links";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import useRegisterUser from "@/hooks/useRegisterUser";
 import Spinner from "./spinner";
 
@@ -16,7 +16,7 @@ export default function Signup() {
     const firstNameRef = useRef<HTMLInputElement>(null);
     const lastNameRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate()
-    const { registerUser, isPending, isRegistrationSuccess, isError } = useRegisterUser()
+    const { registerUser, isPending, isRegistrationSuccess, isError, resetRegistration } = useRegisterUser()
 
     const handleRegister = async () => {
         const email = emailRef.current?.value;
@@ -41,15 +41,17 @@ export default function Signup() {
             firstName: firstName || '',
             lastName: lastName || ''
         })
-        if (isRegistrationSuccess) {
-            console.log("Registration successful");
-            navigate(Links.auth.Login);
-        }
+
+
         if (isError) {
             alert("Registration failed. Please check your details and try again.");
+            resetRegistration()
         }
     };
 
+    useEffect(() => {
+        navigate(Links.auth.Login);
+    }, [isRegistrationSuccess])
     return (
         <div className='flex flex-col w-full gap-3'>
             <div className="flex flex-col gap-4 ">
