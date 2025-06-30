@@ -9,11 +9,11 @@ export default function useUserInfo() {
     queryKey: USER_QUERY_KEY,
     queryFn: async () => {
       const user = await api.getUserInfo();
+      console.log("Fetched user data:", user);
       return user;
     },
-    staleTime: 0, // 5 minutes
-    gcTime: 1000 * 60 * 60, // 1 hour
     select: (data) => {
+      console.log('got here atleast ')
       localStorage.setItem('userRole', data.role.type);
       localStorage.setItem('userId', data.documentId);
       console.log("User data:", data);
@@ -23,7 +23,9 @@ export default function useUserInfo() {
         profilePicture: generateImageUrl(data.profilePicture?.url),
         registrations: data.registrations.filter((registration: Registration) => registration.publishedAt !== null && registration.isActive)
       };
-    }
+    },
+    staleTime: 0, // 5 minutes
+    gcTime: 1000 * 60 * 60, // 1 hour
   });
   return {
     user: data as User,

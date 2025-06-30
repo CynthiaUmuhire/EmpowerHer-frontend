@@ -1,6 +1,4 @@
 import api from "@/api/api";
-import queryClient from "@/api/queryClient";
-import { USER_QUERY_KEY } from "@/constants/queryKeys";
 import { UserLoginData } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 

@@ -1,6 +1,7 @@
 import api from "@/api/api";
 import { EVENTS_QUERY_KEY } from "@/constants/queryKeys";
 import generateImageUrl from "@/utils/generateImageUrl";
+import mapEvents from "@/utils/mapEvents";
 import { useQuery } from "@tanstack/react-query";
 
 export default function useEvents() {
@@ -14,10 +15,7 @@ export default function useEvents() {
             return response.data;
         },
         select: (data) => {
-            return data.map((event) => ({
-                ...event,
-                image: event.image ? generateImageUrl(event.image.formats.thumbnail.url) : null,
-            }));
+            return data.map((event) => mapEvents(event));
         },
         staleTime: 0, // 5 minutes
         gcTime: 1000 * 60 * 60, // 1 hour

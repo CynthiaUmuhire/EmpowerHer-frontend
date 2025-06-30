@@ -10,10 +10,10 @@ const groupPopulateFields = [
     // 'facilitators',
     'coverImage'
 ]
-
 const eventPopulateFields = [
     'group',
     'rsvps',
+    'rsvps.user',
     'image'
 ]
 const api = {

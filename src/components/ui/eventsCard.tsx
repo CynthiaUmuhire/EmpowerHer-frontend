@@ -1,21 +1,33 @@
 import { useState } from "react";
-import { IoIosArrowRoundForward } from "react-icons/io";
-import { Link } from "react-router-dom";
 import CustomButton from "./customButton";
+import useJoinEvent from "@/hooks/useJoinEvent";
+import Spinner from "./spinner";
 
-export default function EventsCard({ title, description, date, time, location, image, groupName, status }: { title: string; description: string; date: string; time: string; status: string; location: string, image?: string, groupName?: string }) {
+export default function EventsCard({ title, description, date, time, location, image, groupName, status, eventId, rsvpstatus }: { title: string; description: string; date: string; time: string; status: string; rsvpstatus: string; location: string, eventId: string, image?: string, groupName?: string }) {
     const [startRegistering, setStartRegistering] = useState(false);
+    const [message, setMessage] = useState<null | string>(null);
+    const { joinEventMutation, isPending, isSuccess } = useJoinEvent({
+        eventId,
+        onClose: () => setStartRegistering(false)
+    });
 
     const rsvpOptions = [
         { label: "Maybe", value: "Maybe" },
         { label: "Reserve a spot", value: "Reserve" },
         { label: "Will not attend", value: "Decline" }
     ]
+
+    const handleClick = (option: string) => {
+        joinEventMutation({
+            status: option
+        });
+        setMessage('Thank you for your response!');
+        setStartRegistering(false);
+
+    }
+
     return (
-        <div className="w-full min-w-xs text-sm md:text-md relative  bg-primary-50 rounded-lg flex flex-col  md:flex-row  items-center border-0 shadow-md hover:shadow-lg">
-            {/* <div className="w-full md:w-1/3 h-1/3  md:h-fit">
-                <img src={image} alt="event image" className="object-cover w-full h-full" />
-            </div> */}
+        <div className="w-full min-w-xs text-sm md:text-md relative  bg-primary-50 rounded-lg flex flex-col py-2 px-2 md:px-4  md:flex-row  items-center border-0 shadow-md hover:shadow-lg">
             <div className=" flex flex-col gap-6 p-2 md:p-4">
                 <h1 className="font-bold">{title}</h1>
                 {groupName && (
@@ -31,25 +43,34 @@ export default function EventsCard({ title, description, date, time, location, i
                     <span>{status}</span>
                 </div>
                 <div className="flex gap-4 items-center w-full">
-                    {!startRegistering && (
-                        <CustomButton onClick={() => setStartRegistering(true)}>
-                            RSVP
-                        </CustomButton>
-                    )}
-                    {startRegistering && (
+                    {!["Reserve"].includes(rsvpstatus) ? (
                         <>
-                            {rsvpOptions.map((option) => (
-                                <CustomButton key={option.value} variant="secondary" className="w-full mb-2" onClick={() => {
-                                    console.log(`User selected: ${option.value}`);
-                                }}>
-                                    {option.label}
+                            {!startRegistering && (
+                                <CustomButton onClick={() => setStartRegistering(true)}>
+                                    RSVP
                                 </CustomButton>
-                            ))}
-                            <CustomButton variant="destructive" className="w-full" onClick={() => setStartRegistering(false)}>
-                                Cancel
-                            </CustomButton>
+                            )}
+                            {startRegistering && (
+                                <>
+                                    {rsvpOptions.filter(option => option.value !== rsvpstatus).map((option) => (
+                                        <CustomButton key={option.value} variant="secondary" className="w-full mb-2" disabled={isPending} onClick={() => handleClick(option.value)}>
+                                            {option.label}
+                                            {isPending && <Spinner />}
+                                        </CustomButton>
+                                    ))}
+                                    <CustomButton variant="destructive" className="w-full" onClick={() => setStartRegistering(false)}>
+                                        Cancel
+                                    </CustomButton>
+                                </>
+                            )}
+                            {isSuccess && message && (
+                                <p className="text-green-500 font-semibold">{message}</p>
+                            )}
                         </>
+                    ) : (
+                        <p className="text-green-500 font-semibold">You already reserved your spot</p>
                     )}
+
                 </div>
             </div>
         </div>
