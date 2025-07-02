@@ -27,7 +27,7 @@ export default function MainLayout() {
             <header className="px-10">
                 <EHNavigation />
             </header>
-            <div className="grow overflow-scroll bg-secondary-100">
+            <div className="grow overflow-y-scroll  bg-secondary-100">
                 <Outlet />
             </div>
             <div>

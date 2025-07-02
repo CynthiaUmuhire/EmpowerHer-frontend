@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
 export default function useJoinEvent({ onClose, eventId }: { onClose: () => void, eventId: string }) {
-    const { mutate: joinEventMutation, isPending, isSuccess } = useMutation({
+    const { mutate: joinEventMutation, isPending, isSuccess, isError } = useMutation({
         mutationFn: async (data: { status: string, }) => {
             const userId = localStorage.getItem('userId');
             if (!userId) {
@@ -38,14 +38,14 @@ export default function useJoinEvent({ onClose, eventId }: { onClose: () => void
             queryClient.invalidateQueries({ queryKey: ['event', eventId] })
             onClose();
         },
-        onError: (error) => {
-            console.error('Failed to submit registration request:', error);
-            alert(`Failed to submit request: ${error.message}`); // Replace with proper error display
+        onError: () => {
+            onClose();
         },
     });
     return {
         joinEventMutation,
         isPending,
-        isSuccess
+        isSuccess,
+        isError
     }
 }

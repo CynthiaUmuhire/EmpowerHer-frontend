@@ -1,26 +1,31 @@
-import generateImageUrl from "./generateImageUrl";
+import dayjs from 'dayjs';
 
 export default function mapEvents(event, userRegisteredEvents, otherEvents) {
     const userId = localStorage.getItem('userId');
-
-
     if (event.rsvps && event.rsvps.length > 0) {
         const userRsvp = event.rsvps.find(rsvp => rsvp.user.documentId === userId);
-        console.log('User RSVP:', userRsvp);
         if (userRsvp) {
             userRegisteredEvents.push({
                 ...event,
                 rsvpStatus: userRsvp.rsvpValue,
-                groupName: event.group?.name
+                groupName: event.group?.name,
+                startDate: dayjs(event.startDate).format('YYYY-MM-DD'),
+                endDate: dayjs(event.endDate).format('YYYY-MM-DD'),
+                startTime: dayjs(event.startDate).format('HH:mm'),
+                endTime: dayjs(event.endDate).format('HH:mm')
             });
         }
     } else {
-        console.log('Herre too: ✅✅✅✅✅✅✅✅✅✅✅');
         otherEvents.push({
             ...event,
             groupName: event.group?.name,
             image: event.image ? event.image.formats.thumbnail.url : null,
-            eventId: event.documentId
+            rsvpStatus: null,
+            eventId: event.documentId,
+            startDate: dayjs(event.startDate).format('YYYY-MM-DD'),
+            endDate: dayjs(event.endDate).format('YYYY-MM-DD'),
+            startTime: dayjs(event.startDate).format('HH:mm'),
+            endTime: dayjs(event.endDate).format('HH:mm')
         });
     }
     return {

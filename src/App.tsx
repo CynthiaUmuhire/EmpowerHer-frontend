@@ -1,7 +1,6 @@
 import { Suspense } from "react"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Links from "./routes/Links"
-import { Toaster } from "sonner"
 import ErrorBoundary from "./components/errorBoundary/errorBoundary"
 import Landing from "./pages/landingPage"
 import MainLayout from "./layout/mainLayout"
@@ -17,6 +16,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import Home from "./pages/home"
 import GroupDetails from "./pages/groupDetails"
 import Events from "./pages/events"
+import { Toaster } from "./components/ui/sonner"
 
 export default function App() {
   const routes = createBrowserRouter([
@@ -80,10 +80,11 @@ export default function App() {
       <Suspense fallback={<>Loading...</>}>
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={routes} />
+          <Toaster richColors />
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </Suspense>
-      <Toaster richColors />
+
     </ErrorBoundary>
 
   )
