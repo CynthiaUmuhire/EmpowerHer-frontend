@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
 export default function useJoinGroup({ groupId, onClose }: { groupId: string, onClose: () => void }) {
-    const { mutate: createRegistrationMutation, isPending, } = useMutation<any, Error, FormValues>({
+    const { mutate: createRegistrationMutation, isPending, isSuccess, isError } = useMutation<any, Error, FormValues>({
         mutationFn: async (data) => {
             const userId = localStorage.getItem('userId');
             if (!userId) {
@@ -38,17 +38,17 @@ export default function useJoinGroup({ groupId, onClose }: { groupId: string, on
             return response.data;
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['group', groupId] }); // Invalidate group details to show pending status
-            alert('Registration request submitted successfully!'); // Replace with a proper toast/notification
+            queryClient.invalidateQueries({ queryKey: ['group', groupId] });
             onClose();
         },
         onError: (error) => {
             console.error('Failed to submit registration request:', error);
-            alert(`Failed to submit request: ${error.message}`); // Replace with proper error display
         },
     });
     return {
         createRegistrationMutation,
-        isPending
+        isPending,
+        isSuccess,
+        isError
     }
 }

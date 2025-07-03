@@ -6,6 +6,7 @@ import useJoinGroup from '@/hooks/useJoinGroup';
 import { useState } from 'react';
 import CustomButton from './customButton';
 import { Dialog, DialogHeader, DialogTitle, DialogContent } from './dialog';
+import { toast } from 'sonner';
 
 
 interface RequestToJoinFormProps {
@@ -29,7 +30,15 @@ export function RequestToJoinForm({ groupId }: RequestToJoinFormProps) {
         resolver: zodResolver(formSchema),
     });
 
-    const { createRegistrationMutation, isPending } = useJoinGroup({ groupId, onClose });
+    const { createRegistrationMutation, isPending, isError, isSuccess } = useJoinGroup({ groupId, onClose });
+
+    if (isSuccess) {
+        toast.success('You have successfully submitted your registration to join the group')
+    }
+
+    if (isError) {
+        toast.error('Sorry something happened while registering to the group. Try again later')
+    }
 
     const onSubmit = (data: FormValues) => {
         if (!errors.notes) {
@@ -50,13 +59,13 @@ export function RequestToJoinForm({ groupId }: RequestToJoinFormProps) {
                         </DialogHeader>
                         <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
                             <div className="mb-4">
-                                <label htmlFor="notes" className="block text-gray-700 text-sm font-bold mb-2">
+                                <label htmlFor="notes" className="block text-primary text-sm font-bold mb-2">
                                     Notes (optional):
                                 </label>
                                 <textarea
                                     id="notes"
                                     {...register('notes')}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline"
                                     rows={4}
                                     placeholder="Tell us why you want to join this group..."
                                 />
@@ -71,6 +80,7 @@ export function RequestToJoinForm({ groupId }: RequestToJoinFormProps) {
                                 </CustomButton>
                                 <CustomButton
                                     variant={'secondary'}
+                                    type='submit'
                                     disabled={isSubmitting || isPending}
                                 >
                                     {isSubmitting || isPending ? 'Submitting...' : 'Submit Request'}

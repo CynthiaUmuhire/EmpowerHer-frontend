@@ -8,9 +8,9 @@ interface CustomButtonProps extends PropsWithChildren<ButtonHTMLAttributes<HTMLB
     variant?: VariantProps<typeof Button>["variant"];
 }
 
-export default function CustomButton({ children, disabled, variant = 'default', onClick }: CustomButtonProps) {
+export default function CustomButton({ children, disabled, variant = 'default', onClick, ...props }: CustomButtonProps) {
     return (
-        <Button variant={variant} disabled={disabled} onClick={onClick}
+        <Button variant={variant} disabled={disabled} {...props} onClick={onClick}
             className={
                 clsx(
                     "text-xs sm:text-sm md:text-normal font-normal max-w-min",

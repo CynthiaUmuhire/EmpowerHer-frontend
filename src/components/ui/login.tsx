@@ -7,6 +7,7 @@ import useUserLogin from "@/hooks/useUserlogin";
 import Spinner from "./spinner";
 import RoleSelector from "./roleselector";
 import { BACKEND_URL } from "@/config";
+import { toast } from "sonner";
 
 function Login() {
     const identifierRef = useRef<HTMLInputElement>(null);
@@ -20,13 +21,13 @@ function Login() {
         const password = passwordRef.current?.value;
 
         if (!identifier || !password) {
-            alert("Please fill in all fields");
+            toast.info("Please fill in all fields");
             return;
         }
 
         login({ identifier, password });
         if (isError) {
-            alert("Login failed. Please check your credentials.");
+            toast.error("Login failed. Please check your credentials.");
         }
     }
     const handleContinueToLogin = () => {
@@ -39,7 +40,7 @@ function Login() {
     };
     useEffect(() => {
         if (isSuccess) {
-            console.log("Login successful");
+
             navigate(Links.protected.Home);
         }
     }, [isSuccess, navigate]);

@@ -2,83 +2,87 @@ import { Link, useNavigate } from "react-router-dom";
 import CustomButton from "./customButton";
 import EHInput from "./EHInput";
 import Links from "@/routes/Links";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import useRegisterUser from "@/hooks/useRegisterUser";
 import Spinner from "./spinner";
+import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+import * as z from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const formSchema = z.object({
+    email: z.string().email().trim(),
+    phoneNumber: z.coerce.string().min(10),
+    password: z.string().min(6),
+    confirmPassword: z.string().min(6),
+    role: z.enum(["mother", "facilitator"]),
+    firstName: z.string().min(2),
+    lastName: z.string().min(2),
+    name: z.string().min(1)
+});
+
+export type RegistrationFormValues = z.infer<typeof formSchema>;
 
 export default function Signup() {
-    const emailRef = useRef<HTMLInputElement>(null);
-    const phoneNumberRef = useRef<HTMLInputElement>(null);
-    const passwordRef = useRef<HTMLInputElement>(null);
-    const confirmPasswordRef = useRef<HTMLInputElement>(null);
-    const usernameRef = useRef<HTMLInputElement>(null);
-    const roleRef = useRef<HTMLSelectElement>(null);
-    const firstNameRef = useRef<HTMLInputElement>(null);
-    const lastNameRef = useRef<HTMLInputElement>(null);
+
     const navigate = useNavigate()
     const { registerUser, isPending, isRegistrationSuccess, isError, resetRegistration } = useRegisterUser()
 
-    const handleRegister = async () => {
-        const email = emailRef.current?.value;
-        const phoneNumber = phoneNumberRef.current?.value;
-        const password = passwordRef.current?.value;
-        const confirmPassword = confirmPasswordRef.current?.value;
-        const username = usernameRef.current?.value;
-        const role = roleRef.current?.value;
-        const firstName = firstNameRef.current?.value;
-        const lastName = lastNameRef.current?.value;
-        // TODO: make a better call here !!!
-        if (password !== confirmPassword) {
-            alert("Passwords do not match");
-            return;
-        }
-        registerUser({
-            name: username || '',
-            email: email || '',
-            phoneNumber: phoneNumber || '',
-            password: password || '',
-            role: role as 'mother' | 'facilitator',
-            firstName: firstName || '',
-            lastName: lastName || ''
-        })
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<RegistrationFormValues>({
+        resolver: zodResolver(formSchema),
+    });
+    const onSubmit = (data: RegistrationFormValues) => {
+
+        registerUser(data)
 
 
         if (isError) {
-            alert("Registration failed. Please check your details and try again.");
+            toast.error("Registration failed. Please check your details and try again.");
             resetRegistration()
         }
-    };
+    }
 
     useEffect(() => {
-        navigate(Links.auth.Login);
+        if (isRegistrationSuccess) {
+            toast.success('Registration successful')
+            navigate(Links.auth.Login);
+        }
     }, [isRegistrationSuccess])
     return (
         <div className='flex flex-col w-full gap-3'>
-            <div className="flex flex-col gap-4 ">
+            <form className="flex flex-col gap-4 " >
                 <div className="flex gap-6 items-center">
-                    <EHInput placeholder="Enter your first name" label={'First Name'} type='text' ref={firstNameRef} />
-                    <EHInput placeholder="Enter your last name" label={'Last Name'} type='text' ref={lastNameRef} />
+                    <EHInput placeholder="Enter your first name" label={'First Name'} type='text' {...register('firstName')} />
+                    {errors.firstName && <p className="text-red-500 text-xs italic">{errors.firstName.message}</p>}
+                    <EHInput placeholder="Enter your last name" label={'Last Name'} type='text'  {...register('lastName')} />
+                    {errors.lastName && <p className="text-red-500 text-xs italic">{errors.lastName.message}</p>}
                 </div>
-                <EHInput placeholder="Enter your preferred name" label={'User name'} type='text' ref={usernameRef} />
+                <EHInput placeholder="Enter your preferred name" label={'User name'} type='text' {...register('name')} />
+                {errors.name && <p className="text-red-500 text-xs italic">{errors.name.message}</p>}
                 <div className="flex justify-between items-center">
                     <p>Pick a role</p>
-                    <select className=" text-primary-400 p-2 rounded-md" ref={roleRef}>
+                    <select className=" text-primary-400 p-2 rounded-md" {...register('role')}>
                         <option value="mother">Mother</option>
                         <option value="facilitator">Facilitator</option>
                     </select>
+                    {errors.role && <p className="text-red-500 text-xs italic">{errors.role.message}</p>}
                 </div>
-                <EHInput placeholder="Enter your email address" label={'Email Address'} type='email' ref={emailRef} />
-                <EHInput placeholder="Your phone number" label={'Phone Number'} type="number" ref={phoneNumberRef} />
-                <EHInput placeholder="Password" label={'Your Password'} type="password" ref={passwordRef} />
-                <EHInput placeholder="Confirm Password" label={'Confirm Password'} type="password" ref={confirmPasswordRef} />
-            </div>
+                <EHInput placeholder="Enter your email address" label={'Email Address'} type='email' {...register('email')} />
+                {errors.email && <p className="text-red-500 text-xs italic">{errors.email.message}</p>}
+                <EHInput placeholder="Your phone number" label={'Phone Number'} type="number" {...register('phoneNumber')} />
+                {errors.phoneNumber && <p className="text-red-500 text-xs italic">{errors.phoneNumber.message}</p>}
+                <EHInput placeholder="Password" label={'Your Password'} type="password" {...register('password')} />
+                {errors.password && <p className="text-red-500 text-xs italic">{errors.password.message}</p>}
+                <EHInput placeholder="Confirm Password" label={'Confirm Password'} type="password" {...register('confirmPassword')} />
+                {errors.confirmPassword && <p className="text-red-500 text-xs italic">{errors.confirmPassword.message}</p>}
+            </form>
 
             <div className="flex justify-between flex-row-reverse">
                 <Link to={Links.auth.Login} className="text-secondary-400 text-sm font-light ">Already have an account? <strong>Login</strong></Link>
             </div>
-            <CustomButton variant={'secondary'} onClick={handleRegister} disabled={isPending || isRegistrationSuccess}>
+            <CustomButton type="submit" variant={'secondary'} disabled={isPending || isRegistrationSuccess || isSubmitting} onClick={handleSubmit(onSubmit)}>
                 Register
-                {isPending && <Spinner />}
+                {isPending || isSubmitting && <Spinner />}
             </CustomButton>
             <div className="flex flex-col justify-center gap-2">
                 <hr className="text-primary-200" />
