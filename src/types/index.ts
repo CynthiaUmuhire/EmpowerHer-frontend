@@ -32,6 +32,7 @@ export interface User {
   registrations?: Registration[];
   firstName: string;
   lastName: string;
+  approvedRegistrations?: Registration[];
 }
 export interface NewUser {
   name: string;

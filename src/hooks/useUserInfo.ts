@@ -1,4 +1,4 @@
-import { Registration, User } from '@/types';
+import { Registration, RegistrationStatus, User } from '@/types';
 import api from '@/api/api';
 import { useQuery } from '@tanstack/react-query';
 import { USER_QUERY_KEY } from '@/constants/queryKeys';
@@ -13,7 +13,6 @@ export default function useUserInfo() {
       return user;
     },
     select: (data) => {
-      console.log('got here atleast ')
       localStorage.setItem('userRole', data.role.type);
       localStorage.setItem('userId', data.documentId);
       console.log("User data:", data);
@@ -21,7 +20,9 @@ export default function useUserInfo() {
         ...data,
         role: data.role.type,
         profilePicture: generateImageUrl(data.profilePicture?.url),
-        registrations: data.registrations.filter((registration: Registration) => registration.publishedAt !== null && registration.isActive)
+        registrations: data.registrations.filter((registration: Registration) => registration.publishedAt !== null && registration.isActive),
+        approvedRegistrations: data.registrations.filter((registration: Registration) => registration.publishedAt !== null && registration.isActive && registration.registrationStatus === RegistrationStatus.APPROVED) || null,
+        upComingEvents: data.rsvps.filter(rsvp => rsvp.rsvpValue !== 'Decline' && rsvp.event.eventStatus === 'Upcoming') || null
       };
     },
     staleTime: 0, // 5 minutes

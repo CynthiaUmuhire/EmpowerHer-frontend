@@ -4,7 +4,9 @@ import { strapiUrlQueryBuilder } from "@/utils/strapiUrlQueryBuilder";
 const userPopulateFields = [
     'role',
     'profilePicture',
-    'registrations'
+    'registrations',
+    'rsvps',
+    'rsvps.event',
 ]
 const groupPopulateFields = [
     // 'facilitators',
