@@ -4,14 +4,34 @@ import FilteringCard from "@/components/ui/filteringCard";
 import Spinner from "@/components/ui/spinner";
 import useEvents from "@/hooks/useEvents";
 import { Settings } from "lucide-react";
-import { useState } from "react";
-
+import { useCallback, useEffect, useState } from "react";
+import throttle from "lodash.throttle";
 export default function Events() {
-    const { events, isLoading } = useEvents();
     const [searchTerm, setSearchTerm] = useState('')
     const [selectedCategory, setSelectedCategory] = useState('')
+    const [querySearchTerm, setQuerySearchterm] = useState(searchTerm)
+    const [selectedOption, setSelectedOption] = useState('all')
+    const { events, isLoading } = useEvents({
+        title: querySearchTerm,
+        category: selectedCategory,
+        option: selectedOption
+    })
     const categories = ["Cancelled", "Completed", "Upcoming"]
-    const options = ['Reserved', "Declined", "Not sure", "All"]
+    const options = ['Reserve', "Decline", "Maybe"]
+    const throttledSetQuerySearchTerm = useCallback(
+        throttle((value: string) => {
+            setQuerySearchterm(value);
+        }, 700),
+        []
+    );
+    const handleFilter = () => {
+        //TODO: Not used currently
+    }
+
+    useEffect(() => {
+        throttledSetQuerySearchTerm(searchTerm);
+
+    }, [searchTerm, throttledSetQuerySearchTerm])
 
     return (
         <section className="h-full mb-10 ">
@@ -23,58 +43,58 @@ export default function Events() {
                     </div>
                 </CenteredContent>
             </div>
-            <CenteredContent>
-                <FilteringCard
-                    searchTerm={searchTerm}
-                    onSearchChange={setSearchTerm}
-                    searchPlaceholder="Search by event name..."
-
-                    categories={categories}
-                    selectedCategory={selectedCategory}
-                    onCategoryChange={setSelectedCategory}
-                    categoryLabel="Category"
-
-                    options={options}
-                    selectedOption="all"
-                    onOptionChange={() => { }}
-                    optionLabel="Registration Option"
-                    optionIcon={<Settings className="w-4 h-4 mr-2" />}
-                />
-                {!events || events.length <= 0 ? (
-                    <div className="text-2xl font-bold text-center w-full flex flex-col items-center justify-center h-full ">
-                        <span>There are no events posted yet!</span>
-                    </div>
-                ) : (
-                    <div className="flex flex-col gap-6 h-full">
-                        <div className=" overflow-y-scroll  flex flex-col">
-                            <div className=" mt-10">
-                                <div className="grid grid-cols-1 gap-6">
-                                    {isLoading && (
-                                        <section>
-                                            <Spinner />
-                                        </section>
-                                    )}
-                                    {!isLoading && events[0].otherEvents.map((event) => (
-                                        <EventsCard
-                                            key={event.documentId}
-                                            title={event.title}
-                                            description={event.description}
-                                            location={event.location}
-                                            groupName={event.group?.name}
-                                            status={event.eventStatus}
-                                            eventId={event.documentId}
-                                            rsvpstatus={event.rsvpStatus}
-                                            endDate={event.endDate}
-                                            endTime={event.endTime}
-                                            startDate={event.startDate}
-                                            startTime={event.startTime} />
-                                    ))}
+            <div className="pb-10">
+                <CenteredContent>
+                    <FilteringCard
+                        searchTerm={searchTerm}
+                        onSearchChange={setSearchTerm}
+                        categories={categories}
+                        selectedCategory={selectedCategory}
+                        onCategoryChange={setSelectedCategory}
+                        categoryLabel="Category"
+                        options={options}
+                        selectedOption={selectedOption}
+                        onOptionChange={setSelectedOption}
+                        optionLabel="Registration Option"
+                        optionIcon={<Settings className="w-4 h-4 mr-2" />}
+                        handleOnClick={handleFilter}
+                    />
+                    {!events || events.length <= 0 ? (
+                        <div className="text-2xl font-bold text-center w-full flex flex-col items-center justify-center h-full ">
+                            <span>There are no events posted yet!</span>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col gap-6 h-full">
+                            <div className=" overflow-y-scroll  flex flex-col">
+                                <div className=" mt-10">
+                                    <div className="grid grid-cols-1 gap-6">
+                                        {isLoading && (
+                                            <section>
+                                                <Spinner />
+                                            </section>
+                                        )}
+                                        {!isLoading && events.map((event) => (
+                                            <EventsCard
+                                                key={event.documentId}
+                                                title={event.title}
+                                                description={event.description}
+                                                location={event.location}
+                                                groupName={event.group?.name}
+                                                status={event.eventStatus}
+                                                eventId={event.documentId}
+                                                rsvpstatus={event.rsvpStatus}
+                                                endDate={event.endDate}
+                                                endTime={event.endTime}
+                                                startDate={event.startDate}
+                                                startTime={event.startTime} />
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                )}
-            </CenteredContent>
+                    )}
+                </CenteredContent>
+            </div>
         </section>
     )
 }

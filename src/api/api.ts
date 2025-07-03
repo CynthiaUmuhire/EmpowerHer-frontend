@@ -38,6 +38,13 @@ const api = {
         }
         return response.data;
     },
+    getEventsByFilters: async (filterParams: string) => {
+        const response = await strapi.get(`/events?${strapiUrlQueryBuilder(...eventPopulateFields)}${filterParams}`);
+        if (!response.data) {
+            throw new Error('Failed to fetch events');
+        }
+        return response.data;
+    },
     getEventById: async (id: string) => {
         const response = await strapi.get(`/events/${id}`);
         if (!response.data) {

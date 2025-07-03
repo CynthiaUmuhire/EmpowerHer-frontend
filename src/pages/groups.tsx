@@ -6,7 +6,15 @@ import useGroups from "@/hooks/useGroups";
 export default function Groups() {
     const { groups, isLoading, isError } = useGroups();
     return (
-        <section >
+        <section className="h-full mb-10 ">
+            <div className="h-64 bg-gradient-to-r from-secondary-400 to-secondary-200 text-secondary-50">
+                <CenteredContent>
+                    <div className=" h-full gap-5 flex flex-col items-start justify-center">
+                        <h1 className="font-bold text-2xl md:text-7xl">Support groups</h1>
+                        <p>Find the perfect support group for your needs. Connect with other mothers, access resources, and build lasting relationships.</p>
+                    </div>
+                </CenteredContent>
+            </div>
             <CenteredContent>
                 {isLoading && (
                     <section className="flex items-center justify-center h-screen">

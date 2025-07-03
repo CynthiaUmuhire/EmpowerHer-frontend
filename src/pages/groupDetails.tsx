@@ -11,7 +11,7 @@ import Links from "@/routes/Links";
 import { ArrowLeft, MapPin, Phone, Share2, Users } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { Resend } from 'resend';
-const key = import.meta.env.RESEND_API_KEY;
+
 export default function GroupDetails() {
     const { groupId } = useParams<{ groupId: string }>();
     const { group: groupDetails, isLoading, isError } = useGroupDetails(groupId);
@@ -42,7 +42,7 @@ export default function GroupDetails() {
             {!isLoading && !isError && groupDetails && (
                 <>
                     {/* THe Hero section */}
-                    <div className="relative h-64 bg-gradient-to-r from-primary-400 to-primary-200 overflow-hidden">
+                    <div className="relative h-64 bg-gradient-to-r from-secondary-400 to-secondary-200 overflow-hidden">
                         <div
                             className={`absolute inset-0 bg-cover bg-center opacity-20 bg-[url(${groupDetails.coverImage})]`} // Currently not showing
                         />

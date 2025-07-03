@@ -1,13 +1,11 @@
-import React, { useRef } from 'react';
-import { Filter, Calendar, MapPin, Search } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import React from 'react';
+import { Filter, MapPin } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import EHInput from './EHInput';
-
 interface FilteringCardProps {
     searchTerm: string;
     onSearchChange: (term: string) => void;
-    searchPlaceholder?: string;
+    // searchRef: React.Ref<HTMLInputElement>
 
     categories: string[];
     selectedCategory: string;
@@ -21,62 +19,49 @@ interface FilteringCardProps {
     optionLabel?: string;
     optionIcon?: React.ReactNode;
 
-    timeframes?: { value: string; label: string }[];
-    selectedTimeframe?: string;
-    onTimeframeChange?: (timeframe: string) => void;
-    timeframeLabel?: string;
-
-    additionalContent?: React.ReactNode;
+    handleOnClick: () => any[] | void
 }
 
 const FilteringCard: React.FC<FilteringCardProps> = ({
     searchTerm,
     onSearchChange,
-    searchPlaceholder = "Search...",
-
+    // searchRef,
     categories,
     selectedCategory,
     onCategoryChange,
-    categoryLabel = "Category",
     categoryIcon = <Filter className="w-4 h-4 mr-2" />,
-
     options,
     selectedOption,
     onOptionChange,
     optionLabel = "Options",
-    optionIcon = <MapPin className="w-4 h-4 mr-2" />,
-
-    additionalContent
+    optionIcon = <MapPin className="w-4 h-4 mr-2" />
 }) => {
-    const searchRef = useRef<HTMLInputElement>(null)
+    const handleSearchInput = (e) => {
 
+        onSearchChange(e.target.value)
+    }
     return (
         <div className="bg-secondary-50 p-6 rounded-2xl shadow-sm border border-secondary-200 my-8">
-            <div className={`grid grid-cols-1 md:grid-cols-4 gap-4 items-center justify-center`}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-center justify-center">
                 {/* Search */}
-                <div className="md:col-span-2">
-                    <div>
-                        <EHInput
-                            placeholder={searchPlaceholder}
-                            value={searchTerm}
-                            onChange={(e) => onSearchChange(e.target.value)}
-                            className="pl-10 focus:ring-0"
-                            label='Search by title'
-                            ref={searchRef}
-                        />
-                    </div>
+                <div className=''>
+                    <EHInput
+                        placeholder={'Search....'}
+                        defaultValue={searchTerm}
+                        onChange={handleSearchInput}
+                    // ref={searchRef}
+                    />
                 </div>
 
                 {/* Category Filter */}
-                <div>
-                    <label className=" text-sm font-medium text-primary mb-2">{categoryLabel}</label>
+                <div className='flex md:justify-center'>
                     <Select value={selectedCategory} onValueChange={onCategoryChange}>
                         <SelectTrigger>
                             {categoryIcon}
-                            <SelectValue placeholder={`All ${categoryLabel}s`} />
+                            <SelectValue placeholder={`All categories`} />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="all">All {categoryLabel}s</SelectItem>
+                            <SelectItem value="all">All categories</SelectItem>
                             {categories.map((category, index) => (
                                 <SelectItem key={index} value={category}>{category}</SelectItem>
                             ))}
@@ -86,7 +71,6 @@ const FilteringCard: React.FC<FilteringCardProps> = ({
 
                 {/* Options Filter */}
                 <div>
-                    <label className="block text-sm font-medium text-primary mb-2">{optionLabel}</label>
                     <Select value={selectedOption} onValueChange={onOptionChange}>
                         <SelectTrigger>
                             {optionIcon}
@@ -104,13 +88,11 @@ const FilteringCard: React.FC<FilteringCardProps> = ({
                         </SelectContent>
                     </Select>
                 </div>
-
-                {/* Additional Content */}
-                {additionalContent && (
-                    <div className="flex items-end">
-                        {additionalContent}
-                    </div>
-                )}
+                {/* <div className='flex md:justify-end'>
+                    <CustomButton variant={'secondary'} onClick={handleOnClick}>
+                        Filter
+                    </CustomButton>
+                </div> */}
             </div>
         </div>
     );
