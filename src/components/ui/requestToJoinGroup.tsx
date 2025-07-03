@@ -5,6 +5,8 @@ import * as z from 'zod';
 import useJoinGroup from '@/hooks/useJoinGroup';
 import { useState } from 'react';
 import CustomButton from './customButton';
+import { Dialog, DialogHeader, DialogTitle, DialogContent } from './dialog';
+
 
 interface RequestToJoinFormProps {
     groupId: string;
@@ -18,10 +20,7 @@ export type FormValues = z.infer<typeof formSchema>;
 
 export function RequestToJoinForm({ groupId }: RequestToJoinFormProps) {
     const [showRegistrationForm, setShowRegistrationForm] = useState(false);
-    const handleJoin = () => {
-        setShowRegistrationForm(true);
 
-    };
     const onClose = () => {
         setShowRegistrationForm(false);
     };
@@ -33,21 +32,23 @@ export function RequestToJoinForm({ groupId }: RequestToJoinFormProps) {
     const { createRegistrationMutation, isPending } = useJoinGroup({ groupId, onClose });
 
     const onSubmit = (data: FormValues) => {
-        createRegistrationMutation(data);
+        if (!errors.notes) {
+            createRegistrationMutation(data);
+        }
     };
 
     return (
-        <>
-            <CustomButton onClick={handleJoin} className="w-full">
+        <div>
+            <CustomButton onClick={() => setShowRegistrationForm(true)}>
                 Join This Group
             </CustomButton>
-
-            {showRegistrationForm && (
-
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-xl w-96">
-                        <h2 className="text-xl font-bold mb-4">Request to Join Group</h2>
-                        <form onSubmit={handleSubmit(onSubmit)}>
+            <div>
+                <Dialog open={showRegistrationForm} onOpenChange={setShowRegistrationForm}>
+                    <DialogContent className='bg-secondary-50'>
+                        <DialogHeader>
+                            <DialogTitle>Request to Join Group</DialogTitle>
+                        </DialogHeader>
+                        <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
                             <div className="mb-4">
                                 <label htmlFor="notes" className="block text-gray-700 text-sm font-bold mb-2">
                                     Notes (optional):
@@ -58,29 +59,27 @@ export function RequestToJoinForm({ groupId }: RequestToJoinFormProps) {
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     rows={4}
                                     placeholder="Tell us why you want to join this group..."
-                                ></textarea>
+                                />
                                 {errors.notes && <p className="text-red-500 text-xs italic">{errors.notes.message}</p>}
                             </div>
                             <div className="flex justify-end gap-3">
-                                <button
-                                    type="button"
+                                <CustomButton
+                                    variant={'destructive'}
                                     onClick={onClose}
-                                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
                                 >
                                     Cancel
-                                </button>
-                                <button
-                                    type="submit"
+                                </CustomButton>
+                                <CustomButton
+                                    variant={'secondary'}
                                     disabled={isSubmitting || isPending}
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                 >
                                     {isSubmitting || isPending ? 'Submitting...' : 'Submit Request'}
-                                </button>
+                                </CustomButton>
                             </div>
                         </form>
-                    </div>
-                </div>
-            )}
-        </>
+                    </DialogContent>
+                </Dialog>
+            </div>
+        </div>
     );
 }

@@ -39,7 +39,7 @@ export function EHNavigation() {
                 <div className="px-4 block md:hidden">
                     <DropdownMenu>
                         <DropdownMenuTrigger className="px-4 text-center">Menu</DropdownMenuTrigger>
-                        <DropdownMenuContent className=''>
+                        <DropdownMenuContent className='bg-secondary-50 w-30 flex flex-col gap-3 py-3'>
                             {arrayLinks.map((link) => link[0] !== "NotFound" && (
                                 <CustomdropDown
                                     key={link[0]}

@@ -9,7 +9,7 @@ export default function Home() {
   const { user, isLoading: userLoading } = useUserInfo()
   return (
     <section className="h-screen flex flex-col justify-center ">
-      <section className=" bg-gradient-to-br bg-secondary-50 px-10 py-10 md:py-20">
+      <section className=" bg-gradient-to-br bg-secondary-50 py-10 md:py-20">
         <CenteredContent>
           <div className="flex flex-col justify-center gap-4 md:gap-8">
             {userLoading && <div>

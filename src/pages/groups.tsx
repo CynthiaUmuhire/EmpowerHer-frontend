@@ -6,7 +6,7 @@ import useGroups from "@/hooks/useGroups";
 export default function Groups() {
     const { groups, isLoading, isError } = useGroups();
     return (
-        <section className="h-full mb-10 ">
+        <section className="h-full mb-10">
             <div className="h-64 bg-gradient-to-r from-secondary-400 to-secondary-200 text-secondary-50">
                 <CenteredContent>
                     <div className=" h-full gap-5 flex flex-col items-start justify-center">
@@ -32,7 +32,7 @@ export default function Groups() {
 
                             </div>
                         </div>
-                        <div>
+                        <div className="pb-10">
                             <h2 className="text-2xl font-bold text-center w-full mb-10">Discover Groups</h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                 {groups.map(group =>
