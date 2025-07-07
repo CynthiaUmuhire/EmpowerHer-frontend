@@ -59,11 +59,11 @@ export default function Profile() {
                                             <div className="text-3xl min-w-24 h-24 flex justify-center items-center rounded-full font-semibold border-2 border-primary-400 ">
                                                 <p>{user.username.split(' ').map(n => n[0]).join('')}</p>
                                             </div>)}
-                                    <div className="absolute bottom-1 right-1">
+                                    {/* <div className="absolute bottom-1 right-1">
                                         <CustomButton onClick={handleImage}>
                                             <Camera className="w-4 h-4" />
                                         </CustomButton>
-                                    </div>
+                                    </div> */}
                                 </CardContent>
                                 <CardContent className="flex flex-col gap-4 text-primary-400">
                                     <div>
