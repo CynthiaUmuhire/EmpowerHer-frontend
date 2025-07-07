@@ -36,6 +36,7 @@ export interface User {
   district?: string;
   age?: string;
   approvedRegistrations?: Registration[];
+  upComingEvents?: unknown[];
 }
 export interface NewUser {
   name: string;
@@ -81,5 +82,25 @@ export enum GroupStatus {
   ACTIVE = 'Active',
   INACTIVE = 'Inactive',
   REVIEWING = 'Reviewing'
+}
+
+// Dashboard Types
+export interface DistrictStats {
+  district: string;
+  count: number;
+}
+
+export interface GroupStats {
+  groupId: string;
+  groupName: string;
+  memberCount: number;
+  district: string;
+}
+
+export interface DashboardStats {
+  totalMothers: number;
+  totalGroups: number;
+  districtDistribution: DistrictStats[];
+  groupMembership: GroupStats[];
 }
 

@@ -4,6 +4,9 @@ import Spinner from "@/components/ui/spinner"
 import { Link } from "react-router-dom"
 import { ArrowRight, Users, Calendar, Award } from "lucide-react"
 import Links from "@/routes/Links"
+import useUserInfo from "@/hooks/useUserInfo"
+import dayjs from "dayjs"
+import { ComponentType } from "react"
 
 export default function Home() {
   const { user, isLoading: userLoading } = useUserInfo()
@@ -50,10 +53,6 @@ export default function Home() {
 
   )
 }
-
-import { ComponentType } from "react"
-import useUserInfo from "@/hooks/useUserInfo"
-import dayjs from "dayjs"
 
 function Badge({ Icon, count, text
 }: { Icon: ComponentType, count: number | string, text: string }) {

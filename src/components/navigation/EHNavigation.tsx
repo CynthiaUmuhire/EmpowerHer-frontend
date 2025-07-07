@@ -2,9 +2,25 @@ import Links from "@/routes/Links";
 import { NavLink } from "react-router-dom";
 import CustomdropDown from "../ui/customdropDown";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { useEffect, useState } from "react";
 
 const arrayLinks = Object.entries(Links.protected);
 export function EHNavigation() {
+    const [userRole, setUserRole] = useState<string | null>(null);
+
+    useEffect(() => {
+        const role = localStorage.getItem('userRole');
+        setUserRole(role);
+    }, []);
+
+    // Filter links based on user role
+    const filteredLinks = arrayLinks.filter((link) => {
+        if (link[0] === 'Dashboard') {
+            return userRole === 'author' || userRole === 'super_admin' || userRole === 'editor';
+        }
+        return link[0] !== 'Profile';
+    });
+
     return (
         <section>
             <div className="flex items-center justify-between bg-secondary-50 p-4">
@@ -12,7 +28,7 @@ export function EHNavigation() {
                     <strong className="text-secondary-800">EmpowerHer</strong>
                 </div>
                 <div className="md:flex gap-4 hidden ">
-                    {arrayLinks.map((link) => link[0] !== 'Profile' && (
+                    {filteredLinks.map((link) => (
                         <NavLink
                             key={link[0]}
                             to={link[1]}
@@ -40,7 +56,7 @@ export function EHNavigation() {
                     <DropdownMenu>
                         <DropdownMenuTrigger className="px-4 text-center">Menu</DropdownMenuTrigger>
                         <DropdownMenuContent className='bg-secondary-50 w-30 flex flex-col gap-3 py-3'>
-                            {arrayLinks.map((link) => link[0] !== "NotFound" && (
+                            {filteredLinks.map((link) => (
                                 <CustomdropDown
                                     key={link[0]}
                                     path={link[1]}

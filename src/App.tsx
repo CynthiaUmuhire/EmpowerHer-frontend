@@ -16,6 +16,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import Home from "./pages/home"
 import GroupDetails from "./pages/groupDetails"
 import Events from "./pages/events"
+import Dashboard from "./pages/dashboard"
 import { Toaster } from "./components/ui/sonner"
 
 export default function App() {
@@ -44,6 +45,10 @@ export default function App() {
         {
           path: Links.protected.Events,
           element: <Events />
+        },
+        {
+          path: Links.protected.Dashboard,
+          element: <Dashboard />
         }
       ],
       errorElement: <NotFound />

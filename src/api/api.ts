@@ -101,6 +101,14 @@ const api = {
         const data = await response.data;
 
         return data;
+    },
+
+    getAllUsers: async () => {
+        const response = await strapi.get(`/users?${strapiUrlQueryBuilder('role', 'registrations', 'registrations.group')}`);
+        if (!response.data) {
+            throw new Error('Failed to fetch users');
+        }
+        return response.data;
     }
 }
 
