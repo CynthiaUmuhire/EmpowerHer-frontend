@@ -10,6 +10,7 @@ import { BACKEND_URL } from "@/config";
 import { toast } from "sonner";
 
 function Login() {
+    console.log(BACKEND_URL)
     const identifierRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const [currentStep, setCurrentStep] = useState(1);

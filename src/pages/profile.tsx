@@ -1,17 +1,18 @@
 import { Card, CardContent } from "@/components/ui/card";
 import CenteredContent from "@/components/ui/CenteredContent";
 import CustomButton from "@/components/ui/customButton";
+import ProfileUpdateModal from "@/components/ui/profileUpdateModal";
 import Spinner from "@/components/ui/spinner";
 import TypeBadge from "@/components/ui/typeBadge";
 import useUserInfo from "@/hooks/useUserInfo";
 import Links from "@/routes/Links";
 import { RegistrationStatus } from "@/types";
+import { Camera } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
     const { user, isLoading } = useUserInfo();
     const navigate = useNavigate();
-    console.log('Use==========', (!isLoading && user));
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('userRole');
@@ -30,6 +31,10 @@ export default function Profile() {
                 return null;
         }
     };
+    const handleImage = () => {
+
+    }
+
     return (
         <section className="flex flex-col gap-20 py-20">
             {isLoading && (<section>
@@ -44,7 +49,7 @@ export default function Profile() {
                             <h2 className="text-2xl font-semibold mb-4">About Me</h2>
 
                             <Card className="mb-8 border-primary-100  bg-secondary-50 flex flex-col md:flex-row items-center justify-around gap-6">
-                                <CardContent>
+                                <CardContent className="relative">
                                     {user.profilePicture ? (
                                         <img
                                             src={user.profilePicture}
@@ -54,12 +59,26 @@ export default function Profile() {
                                             <div className="text-3xl min-w-24 h-24 flex justify-center items-center rounded-full font-semibold border-2 border-primary-400 ">
                                                 <p>{user.username.split(' ').map(n => n[0]).join('')}</p>
                                             </div>)}
+                                    <div className="absolute bottom-1 right-1">
+                                        <CustomButton onClick={handleImage}>
+                                            <Camera className="w-4 h-4" />
+                                        </CustomButton>
+                                    </div>
                                 </CardContent>
                                 <CardContent className="flex flex-col gap-4 text-primary-400">
-                                    <p className="text-2xl font-semibold">Names: {user.firstName} {user.lastName}</p>
-                                    <p>Email: {user.email}</p>
-                                    <p>Phone number: {user.phoneNumber}</p>
+                                    <div>
+                                        <p className="text-2xl font-semibold">Names: {user.firstName} {user.lastName}</p>
+                                        <p>{user.shotBio}</p>
+                                    </div>
+                                    <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+                                        <p>Email: {user.email}</p>
+                                        <p>Phone number: {user.phoneNumber}</p>
+                                        <p>age: {user.age}</p>
+                                    </div>
 
+                                </CardContent>
+                                <CardContent>
+                                    <ProfileUpdateModal userPrefilledData={user} />
                                 </CardContent>
                             </Card>
                         </CenteredContent>

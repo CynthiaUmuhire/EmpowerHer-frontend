@@ -1,4 +1,4 @@
-import { NewUser, UserLoginData } from "@/types";
+import { NewUser, User, UserLoginData } from "@/types";
 import strapi from "./strapi";
 import { strapiUrlQueryBuilder } from "@/utils/strapiUrlQueryBuilder";
 const userPopulateFields = [
@@ -93,6 +93,15 @@ const api = {
         const data = await response.data;
         return data;
     },
+    updateUserInfo: async (userData: Partial<User>) => {
+        const response = await strapi.put(`/users/${userData.id}`, userData);
+        if (!response.data) {
+            throw new Error('Failed to update user info');
+        }
+        const data = await response.data;
+
+        return data;
+    }
 }
 
 export default api;
