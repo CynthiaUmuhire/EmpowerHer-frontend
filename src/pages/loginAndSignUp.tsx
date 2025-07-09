@@ -20,7 +20,7 @@ export default function LoginAndSignUp() {
                         <NavLink to={Links.auth.Login} className={({ isActive }) => isActive ? "text-secondary-400 border-b-2 border-secondary-400 p-4 text-center" : " p-4 text-center"} >Login</NavLink>
                         <NavLink to={Links.auth.Register} className={({ isActive }) => isActive ? "text-secondary-400 border-b-2 border-secondary-400  p-4 text-center" : "p-4 text-center"}>Register</NavLink>
                     </div>
-                    {pathname === Links.auth.analytics ? <Login /> : <Signup />}
+                    {pathname === Links.auth.Login ? <Login /> : <Signup />}
                 </div>
             </div>
         </section>
