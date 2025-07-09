@@ -22,7 +22,7 @@ export default function useUserInfo() {
         profilePicture: generateImageUrl(data.profilePicture?.url),
         registrations: data.registrations.filter((registration: Registration) => registration.publishedAt !== null && registration.isActive),
         approvedRegistrations: data.registrations.filter((registration: Registration) => registration.publishedAt !== null && registration.isActive && registration.registrationStatus === RegistrationStatus.APPROVED) || null,
-        upComingEvents: data.rsvps.filter(rsvp => rsvp.rsvpValue !== 'Decline' && rsvp.event.eventStatus === 'Upcoming') || null
+        upComingEvents: data.rsvps.filter((rsvp: { rsvpValue: string; event: { eventStatus: string; }; }) => rsvp.rsvpValue !== 'Decline' && rsvp.event.eventStatus === 'Upcoming') || null
       };
     },
     staleTime: 0, // 5 minutes

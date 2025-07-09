@@ -1,7 +1,7 @@
 import RsvpModal from "./rsvpModal";
 import { Calendar, Clock } from "lucide-react";
 
-export default function EventsCard({ title, description, startDate, endDate, startTime, endTime, location, groupName, status, eventId, rsvpstatus }: { title: string; description: string; startDate: string; endDate: string; startTime: string; endTime: string; status: string; rsvpstatus: string; location: string, eventId: string, groupName?: string }) {
+export default function EventsCard({ title, description, startDate, endDate, startTime, endTime, location, groupName, status, eventId, rsvpstatus }: { title: string; description: string; startDate: string; endDate: string; startTime: string; endTime: string; status: string; rsvpstatus: string | null; location: string, eventId: string, groupName?: string }) {
 
     return (
         <div className="w-full min-w-xs text-sm md:text-md relative  bg-primary-50 rounded-lg flex flex-col py-2 px-2 md:px-4  md:flex-row  items-center border-0 shadow-md hover:shadow-lg">

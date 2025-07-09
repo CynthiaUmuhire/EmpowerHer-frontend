@@ -14,7 +14,7 @@ export default function SupportGroupSummaryCard({ title, description, members, t
             <div className="mb-2 ml-6">
                 <TypeBadge type={type} />
             </div>
-            <CardHeader>
+            <CardHeader>s
                 <CardTitle>{title}</CardTitle>
             </CardHeader>
             <CardContent>

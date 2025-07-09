@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import CustomButton from "./customButton";
 import { DialogHeader, Dialog, DialogContent, DialogDescription, DialogTitle } from "./dialog";
 import { Calendar, Clock, MapPin } from "lucide-react";
@@ -6,8 +6,17 @@ import { RadioGroup, RadioGroupItem } from "./radio-group";
 import useJoinEvent from "@/hooks/useJoinEvent";
 import Spinner from "./spinner";
 import { toast } from "sonner";
-
-export default function RsvpModal({ eventTitle, startDate, endDate, startTime, endTime, eventLocation, eventId, rsvpstatus }) {
+type RsvpModalProp = {
+    eventTitle: string;
+    startDate: string;
+    endDate: string;
+    endTime: string;
+    startTime: string;
+    eventLocation: string;
+    eventId: string,
+    rsvpstatus: string | null;
+}
+export default function RsvpModal({ eventTitle, startDate, endDate, startTime, endTime, eventLocation, eventId, rsvpstatus }: RsvpModalProp) {
     const [showModal, setShowModal] = useState(false)
     const [selectedRsvpOption, setSelectedRsvpOption] = useState('')
     const [reservationMessages, setReservationMessages] = useState('')
@@ -32,7 +41,7 @@ export default function RsvpModal({ eventTitle, startDate, endDate, startTime, e
         { label: "Will not attend", value: "Decline" }
     ]
 
-    const handleSetOption = (value) => {
+    const handleSetOption = (value: SetStateAction<string>) => {
         setSelectedRsvpOption(value)
     }
 

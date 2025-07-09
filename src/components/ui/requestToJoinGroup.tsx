@@ -17,7 +17,7 @@ const formSchema = z.object({
     notes: z.string().max(500).optional(),
 });
 
-type FormValues = z.infer<typeof formSchema>;
+export type FormValues = z.infer<typeof formSchema>;
 
 export function RequestToJoinForm({ groupId }: RequestToJoinFormProps) {
     const [showRegistrationForm, setShowRegistrationForm] = useState(false);

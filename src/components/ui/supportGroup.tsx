@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { IoIosArrowRoundForward } from "react-icons/io";
 import Links from "@/routes/Links";
 
 type SupportGroupProps = {

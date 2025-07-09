@@ -104,3 +104,31 @@ export interface DashboardStats {
   groupMembership: GroupStats[];
 }
 
+export interface Event {
+  id: number;
+  documentId: string;
+  title: string;
+  description: string;
+  image?: {
+    formats: {
+      thumbnail: {
+        url: string;
+      };
+    };
+  } | null | string;
+  startDate: string;
+  endDate: string;
+  startTime: string;
+  endTime: string;
+  location: string;
+  groupName?: string;
+  eventStatus: string;
+  rsvpStatus: string | null;
+  eventId: string;
+  rsvps: {
+    user: User;
+    rsvpValue: string;
+    documentId: string;
+  }[];
+  group?: Group
+}

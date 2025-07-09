@@ -6,6 +6,7 @@ import useEvents from "@/hooks/useEvents";
 import { Settings } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import throttle from "lodash.throttle";
+import { Event } from "@/types";
 export default function Events() {
     const [searchTerm, setSearchTerm] = useState('')
     const [selectedCategory, setSelectedCategory] = useState('')
@@ -73,7 +74,7 @@ export default function Events() {
                                                 <Spinner />
                                             </section>
                                         )}
-                                        {!isLoading && events.map((event) => (
+                                        {!isLoading && events.map((event: Event) => (
                                             <EventsCard
                                                 key={event.documentId}
                                                 title={event.title}

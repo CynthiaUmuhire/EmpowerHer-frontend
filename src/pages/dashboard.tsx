@@ -2,25 +2,24 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CenteredContent from "@/components/ui/CenteredContent";
 import Spinner from "@/components/ui/spinner";
 import useDashboard from "@/hooks/useDashboard";
-import useUserInfo from "@/hooks/useUserInfo";
 import { Users, MapPin, TrendingUp } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import Links from "@/routes/Links";
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D'];
 
 export default function Dashboard() {
     const { stats, isLoading, isError } = useDashboard();
-    const { user } = useUserInfo();
     const navigate = useNavigate();
 
     // Check if user is admin or super admin
     useEffect(() => {
         const userRole = localStorage.getItem('userRole');
-        // if (userRole !== 'admin' && userRole !== 'super_admin') {
-        //     navigate(Links.protected.Home, { replace: true });
-        // }
+        if (userRole !== 'admin' && userRole !== 'super_admin') {
+            navigate(Links.protected.Home, { replace: true });
+        }
     }, [navigate]);
 
     if (isLoading) {

@@ -18,7 +18,8 @@ export default function useGroupDetails(groupId: string | undefined) {
             };
         },
         initialData: () => {
-            const rawData = queryClient.getQueryData(GROUPS_QUERY_KEY);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const rawData: any = queryClient.getQueryData(GROUPS_QUERY_KEY);
             if (!rawData) return undefined;
             const groups = transformGroupsData({ data: rawData.data ?? [] });
             if (!groupId) return undefined;

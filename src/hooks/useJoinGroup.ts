@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
 export default function useJoinGroup({ groupId, onClose }: { groupId: string, onClose: () => void }) {
-    const { mutate: createRegistrationMutation, isPending, isSuccess, isError } = useMutation<any, Error, FormValues>({
+    const { mutate: createRegistrationMutation, isPending, isSuccess, isError } = useMutation<unknown, Error, FormValues>({
         mutationFn: async (data) => {
             const userId = localStorage.getItem('userId');
             if (!userId) {

@@ -2,6 +2,7 @@ import api from "@/api/api";
 import { EVENTS_QUERY_KEY } from "@/constants/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
+import { Event } from "@/types";
 
 export default function useEvents(filterParams: { title: string, category: string, option: string }) {
     const { data: events, isLoading, isError, error } = useQuery({
@@ -36,7 +37,7 @@ export default function useEvents(filterParams: { title: string, category: strin
         },
         select: (data) => {
             const userId = localStorage.getItem('userId');
-            return data.map((event) => {
+            return data.map((event: Event) => {
                 const userRsvp = event.rsvps.find(rsvp => rsvp.user.documentId === userId);
                 return {
                     ...event,

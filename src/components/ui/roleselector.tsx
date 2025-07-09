@@ -1,6 +1,5 @@
 import React from 'react';
 import CustomButton from './customButton';
-import { on } from 'events';
 
 interface RoleSelectorProps {
     setRole: React.Dispatch<React.SetStateAction<string | null>>;

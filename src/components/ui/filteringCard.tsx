@@ -36,7 +36,7 @@ const FilteringCard: React.FC<FilteringCardProps> = ({
     optionLabel = "Options",
     optionIcon = <MapPin className="w-4 h-4 mr-2" />
 }) => {
-    const handleSearchInput = (e) => {
+    const handleSearchInput = (e: { target: { value: string; }; }) => {
 
         onSearchChange(e.target.value)
     }

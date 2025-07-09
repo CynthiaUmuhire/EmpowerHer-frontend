@@ -1,6 +1,7 @@
+import { Event } from '@/types';
 import dayjs from 'dayjs';
 
-export default function mapEvents(event, userRegisteredEvents, otherEvents) {
+export default function mapEvents(event: Event, userRegisteredEvents: Event[], otherEvents: Event[]) {
     const userId = localStorage.getItem('userId');
     if (event.rsvps && event.rsvps.length > 0) {
         const userRsvp = event.rsvps.find(rsvp => rsvp.user.documentId === userId);
@@ -19,7 +20,6 @@ export default function mapEvents(event, userRegisteredEvents, otherEvents) {
         otherEvents.push({
             ...event,
             groupName: event.group?.name,
-            image: event.image ? event.image.formats.thumbnail.url : null,
             rsvpStatus: null,
             eventId: event.documentId,
             startDate: dayjs(event.startDate).format('YYYY-MM-DD'),

@@ -7,7 +7,6 @@ import TypeBadge from "@/components/ui/typeBadge";
 import useUserInfo from "@/hooks/useUserInfo";
 import Links from "@/routes/Links";
 import { RegistrationStatus } from "@/types";
-import { Camera } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
@@ -31,9 +30,6 @@ export default function Profile() {
                 return null;
         }
     };
-    const handleImage = () => {
-
-    }
 
     return (
         <section className="flex flex-col gap-20 py-20">
@@ -59,11 +55,6 @@ export default function Profile() {
                                             <div className="text-3xl min-w-24 h-24 flex justify-center items-center rounded-full font-semibold border-2 border-primary-400 ">
                                                 <p>{user.username.split(' ').map(n => n[0]).join('')}</p>
                                             </div>)}
-                                    {/* <div className="absolute bottom-1 right-1">
-                                        <CustomButton onClick={handleImage}>
-                                            <Camera className="w-4 h-4" />
-                                        </CustomButton>
-                                    </div> */}
                                 </CardContent>
                                 <CardContent className="flex flex-col gap-4 text-primary-400">
                                     <div>
@@ -92,7 +83,7 @@ export default function Profile() {
                                         <ul className="space-y-4">
                                             {user.registrations.map((registration) => (
                                                 <li key={registration.id} className="p-4 flex flex-col gap-2 border rounded-md bg-white shadow-sm text-primary-400">
-                                                    <span> Status:  <TypeBadge type={registration.registrationStatus} variant={getBadgeColors(registration.registrationStatus)} /></span>
+                                                    <span> Status:  <TypeBadge type={registration.registrationStatus} variant={getBadgeColors(registration.registrationStatus) || undefined} /></span>
                                                     <p>Notes: {registration.notes || 'No notes provided'}</p>
                                                     <p>Requested on: {new Date(registration.createdAt).toLocaleDateString()}</p>
                                                 </li>

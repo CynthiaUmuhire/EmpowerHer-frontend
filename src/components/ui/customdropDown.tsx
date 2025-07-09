@@ -1,4 +1,4 @@
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
+import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 import { NavLink } from 'react-router-dom'
 
 type CustomdropDownProps = {
