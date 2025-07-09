@@ -13,6 +13,7 @@ export default {
     auth: {
         auth: '/auth',
         Login: '/auth/login',
-        Register: '/auth/register'
+        Register: '/auth/register',
+        analytics: '/auth/analytics'
     }
 }

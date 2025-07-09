@@ -25,7 +25,6 @@ function RoleSelector({ setRole, onContinue }: RoleSelectorProps) {
                 variant={'outline'}
                 onClick={() => handleRoleSelection('facilitator')}
                 className="mt-4"
-
             >
                 Facilitator
             </CustomButton>

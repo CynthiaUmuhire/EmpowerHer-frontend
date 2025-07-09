@@ -6,21 +6,21 @@ import { useEffect, useState } from "react";
 
 const arrayLinks = Object.entries(Links.protected);
 export function EHNavigation() {
-    const [userRole, setUserRole] = useState<string | null>(null);
+    const [userRole, setUserRole] = useState<string | null>(null)
 
     useEffect(() => {
         const role = localStorage.getItem('userRole');
         setUserRole(role);
     }, []);
 
-    // Filter links based on user role
     const filteredLinks = arrayLinks.filter((link) => {
-        if (link[0] === 'Dashboard') {
-            return userRole === 'author' || userRole === 'super_admin' || userRole === 'editor';
+        if (userRole !== 'admin') {
+            return link[0] !== 'Dashboard'
+        } else {
+            return link[0] === 'Dashboard'
         }
-        return link[0] !== 'Profile';
     });
-
+    console.log(filteredLinks, '------')
     return (
         <section>
             <div className="flex items-center justify-between bg-secondary-50 p-4">

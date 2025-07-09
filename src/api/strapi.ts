@@ -3,10 +3,9 @@ import axios from 'axios';
 import { BACKEND_URL } from '@/config';
 
 const strapi = axios.create({
-    baseURL: `${BACKEND_URL}/api`,
+    baseURL: `${BACKEND_URL}`,
 
 });
-console.log('Strapi API URL:', strapi);
 strapi.interceptors.request.use(
     config => {
         if (config.headers.Authorization) {

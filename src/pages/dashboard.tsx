@@ -7,18 +7,19 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Links from "@/routes/Links";
+import { toast } from "sonner";
+import CustomButton from "@/components/ui/customButton";
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D'];
 
 export default function Dashboard() {
     const { stats, isLoading, isError } = useDashboard();
     const navigate = useNavigate();
-
-    // Check if user is admin or super admin
     useEffect(() => {
         const userRole = localStorage.getItem('userRole');
-        if (userRole !== 'admin' && userRole !== 'super_admin') {
-            navigate(Links.protected.Home, { replace: true });
+        if (userRole !== 'admin') {
+            toast.info('You need to be an admin for you to visualise the analytics')
+            navigate(Links.auth.Login, { replace: true });
         }
     }, [navigate]);
 
@@ -200,6 +201,11 @@ export default function Dashboard() {
                                 </div>
                             </CardContent>
                         </Card>
+                    </div>
+                    <div className="self-end">
+                        <CustomButton variant='secondary'>
+                            Export data
+                        </CustomButton>
                     </div>
                 </div>
             </CenteredContent>

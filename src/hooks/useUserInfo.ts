@@ -9,7 +9,6 @@ export default function useUserInfo() {
     queryKey: USER_QUERY_KEY,
     queryFn: async () => {
       const user = await api.getUserInfo();
-      console.log("Fetched user data:", user);
       return user;
     },
     select: (data) => {

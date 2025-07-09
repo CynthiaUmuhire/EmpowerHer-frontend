@@ -23,6 +23,7 @@ export default function useRegisterUser() {
                 firstName: userData.firstName,
                 lastName: userData.lastName
             });
+            console.log("User registration response:", response);
             return response;
         },
         onSuccess: (data) => {

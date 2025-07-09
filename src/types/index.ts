@@ -53,6 +53,10 @@ export type UserLoginData = {
   password: string;
 };
 
+export type adminLoginData = {
+  email: string;
+  password: string;
+};
 export type Tokens = {
   accessToken: string;
   refreshToken: string;

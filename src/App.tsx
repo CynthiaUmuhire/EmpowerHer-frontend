@@ -16,8 +16,9 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import Home from "./pages/home"
 import GroupDetails from "./pages/groupDetails"
 import Events from "./pages/events"
-import Dashboard from "./pages/dashboard"
 import { Toaster } from "./components/ui/sonner"
+import Dashboard from "./pages/dashboard"
+import DashboardLogin from "./pages/dashboardLogin"
 
 export default function App() {
   const routes = createBrowserRouter([
@@ -75,6 +76,10 @@ export default function App() {
         {
           path: Links.auth.Register,
           element: <LoginAndSignUp />
+        },
+        {
+          path: Links.auth.analytics,
+          element: <DashboardLogin />
         }
       ],
       errorElement: <NotFound />

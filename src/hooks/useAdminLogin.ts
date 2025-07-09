@@ -1,16 +1,18 @@
 import api from "@/api/api";
-import { UserLoginData } from "@/types";
+import { adminLoginData } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 
-export default function useUserLogin() {
+export default function useAdminLogin() {
     const { mutate: login, isPending, isError, isSuccess } = useMutation({
-        mutationKey: ['userLogin'],
-        mutationFn: async (userLoginData: UserLoginData) => {
-            const data = await api.login(userLoginData)
+        mutationKey: ['adminLogin'],
+        mutationFn: async (userLoginData: adminLoginData) => {
+            const data = await api.adminLogin(userLoginData)
             return data;
         },
         onSuccess: (data) => {
-            localStorage.setItem('token', data.jwt);
+            console.log("Login successful", data);
+            localStorage.setItem('token', data.data.token);
+            localStorage.setItem('userRole', 'admin');
             //     queryClient.invalidateQueries
             //         // ({ queryKey: USER_QUERY_KEY })
         },
