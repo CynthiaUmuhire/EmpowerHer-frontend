@@ -80,6 +80,8 @@ export type Group = {
   coverImage: string;
   documentId: string;
   createdAt: string;
+  district?: string;
+  region?: string;
 }
 
 export enum GroupStatus {

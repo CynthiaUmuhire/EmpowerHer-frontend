@@ -26,6 +26,7 @@ const FilteringCard: React.FC<FilteringCardProps> = ({
     searchTerm,
     onSearchChange,
     // searchRef,
+    categoryLabel = "Categories",
     categories,
     selectedCategory,
     onCategoryChange,
@@ -58,10 +59,10 @@ const FilteringCard: React.FC<FilteringCardProps> = ({
                     <Select value={selectedCategory} onValueChange={onCategoryChange}>
                         <SelectTrigger>
                             {categoryIcon}
-                            <SelectValue placeholder={`All categories`} />
+                            <SelectValue placeholder={categoryLabel} />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="all">All categories</SelectItem>
+                            <SelectItem value="all">{categoryLabel}</SelectItem>
                             {categories.map((category, index) => (
                                 <SelectItem key={index} value={category}>{category}</SelectItem>
                             ))}
@@ -74,10 +75,10 @@ const FilteringCard: React.FC<FilteringCardProps> = ({
                     <Select value={selectedOption} onValueChange={onOptionChange}>
                         <SelectTrigger>
                             {optionIcon}
-                            <SelectValue placeholder={`All ${optionLabel}s`} />
+                            <SelectValue placeholder={optionLabel} />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="all">All {optionLabel}s</SelectItem>
+                            <SelectItem value="all">{optionLabel}</SelectItem>
                             {options.map(option => {
                                 const value = typeof option === 'string' ? option : option.value;
                                 const label = typeof option === 'string' ? option : option.label;

@@ -8,6 +8,7 @@ const userPopulateFields = [
     'registrations',
     'rsvps',
     'rsvps.event',
+    'registrations.group'
 ]
 const groupPopulateFields = [
     // 'facilitators',
