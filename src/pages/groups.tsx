@@ -18,7 +18,7 @@ export default function Groups() {
     // Get all unique regions from groups
     const regionOptions = useMemo(() => {
         if (!groups) return [];
-        const regions = Array.from(new Set(groups.map(g => g.region || "Other")));
+        const regions = Array.from(new Set(groups.map(g => g.district || "Other")));
         return regions;
     }, [groups]);
 
@@ -35,7 +35,7 @@ export default function Groups() {
     const filteredGroups = useMemo(() => {
         if (!groups) return [];
         return groups.filter(group => {
-            const matchesRegion = selectedRegion === "all" || (group.region || "Other") === selectedRegion;
+            const matchesRegion = selectedRegion === "all" || (group.district || "Other") === selectedRegion;
             const matchesSearch =
                 group.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 group.description.toLowerCase().includes(searchTerm.toLowerCase());

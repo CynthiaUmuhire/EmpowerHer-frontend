@@ -102,8 +102,8 @@ export default function GroupDetails() {
                                     <div className="flex items-center text-sm">
                                         <MapPin className="w-4 h-4 mr-3 text-primary-500" />
                                         <div>
-                                            <p className="font-medium">Hard code location</p>
-                                            <address className="text-gray-600">Hard code adress </address>
+                                            <p className="font-medium">Location</p>
+                                            <address className="text-gray-600">{groupDetails.district || 'No location provided'}</address>
                                         </div>
                                     </div>
                                     <div className="flex items-center text-sm">
