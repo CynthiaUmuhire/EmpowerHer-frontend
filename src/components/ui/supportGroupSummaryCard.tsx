@@ -1,5 +1,4 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./card";
-import { IoIosArrowRoundForward } from "react-icons/io";
 import TypeBadge from "./typeBadge";
 
 type SupportGroupSummaryCardProps = {
@@ -14,7 +13,7 @@ export default function SupportGroupSummaryCard({ title, description, members, t
             <div className="mb-2 ml-6">
                 <TypeBadge type={type} />
             </div>
-            <CardHeader>s
+            <CardHeader>
                 <CardTitle>{title}</CardTitle>
             </CardHeader>
             <CardContent>
@@ -22,9 +21,6 @@ export default function SupportGroupSummaryCard({ title, description, members, t
             </CardContent>
             <CardFooter className="flex justify-between">
                 <p className="font-light italic ">{members} members</p>
-                <a href="#" className="text-secondary hover:underline font-medium flex items-center gap-1">
-                    Learn more <IoIosArrowRoundForward className="size-6" />
-                </a>
             </CardFooter>
         </Card>
     )

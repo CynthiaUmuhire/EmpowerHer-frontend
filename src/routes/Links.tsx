@@ -8,6 +8,7 @@ export default {
     },
     public: {
         Landing: '/landing',
+        SuccessStoryDetails: '/success-stories/:id',
     },
     NotFound: '/404',
     auth: {
