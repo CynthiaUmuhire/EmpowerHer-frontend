@@ -2,13 +2,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CenteredContent from "@/components/ui/CenteredContent";
 import Spinner from "@/components/ui/spinner";
 import useDashboard from "@/hooks/useDashboard";
-import { Users, MapPin, TrendingUp } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Users, MapPin } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Links from "@/routes/Links";
 import { toast } from "sonner";
 import CustomButton from "@/components/ui/customButton";
+import CustomMap from "@/components/ui/customMap";
+
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D'];
 
@@ -22,7 +23,7 @@ export default function Dashboard() {
             navigate(Links.auth.Login, { replace: true });
         }
     }, [navigate]);
-
+    // useMap()
     if (isLoading) {
         return (
             <section className="flex items-center justify-center h-screen bg-secondary-50">
@@ -83,72 +84,8 @@ export default function Dashboard() {
                     </div>
 
                     {/* Charts Section */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        {/* District Distribution Chart */}
-                        <Card className="bg-white shadow-lg border-0">
-                            <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                    <TrendingUp className="h-5 w-5 text-secondary-400" />
-                                    Mothers by District
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                {stats?.districtDistribution && stats.districtDistribution.length > 0 ? (
-                                    <ResponsiveContainer width="100%" height={300}>
-                                        <BarChart data={stats.districtDistribution}>
-                                            <CartesianGrid strokeDasharray="3 3" />
-                                            <XAxis
-                                                dataKey="district"
-                                                angle={-45}
-                                                textAnchor="end"
-                                                height={80}
-                                                fontSize={12}
-                                            />
-                                            <YAxis fontSize={12} />
-                                            <Tooltip />
-                                            <Bar dataKey="count" fill="#8884d8" />
-                                        </BarChart>
-                                    </ResponsiveContainer>
-                                ) : (
-                                    <div className="flex items-center justify-center h-64 text-gray-500">
-                                        No district data available
-                                    </div>
-                                )}
-                            </CardContent>
-                        </Card>
-
-                        {/* Group Membership Chart */}
-                        <Card className="bg-white shadow-lg border-0">
-                            <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                    <Users className="h-5 w-5 text-secondary-400" />
-                                    Group Membership
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                {stats?.groupMembership && stats.groupMembership.length > 0 ? (
-                                    <ResponsiveContainer width="100%" height={300}>
-                                        <BarChart data={stats.groupMembership}>
-                                            <CartesianGrid strokeDasharray="3 3" />
-                                            <XAxis
-                                                dataKey="groupName"
-                                                angle={-45}
-                                                textAnchor="end"
-                                                height={80}
-                                                fontSize={10}
-                                            />
-                                            <YAxis fontSize={12} />
-                                            <Tooltip />
-                                            <Bar dataKey="memberCount" fill="#82ca9d" />
-                                        </BarChart>
-                                    </ResponsiveContainer>
-                                ) : (
-                                    <div className="flex items-center justify-center h-64 text-gray-500">
-                                        No group data available
-                                    </div>
-                                )}
-                            </CardContent>
-                        </Card>
+                    <div className="grid grid-cols-1  gap-8">
+                        <CustomMap />
                     </div>
 
                     {/* Detailed Tables */}
