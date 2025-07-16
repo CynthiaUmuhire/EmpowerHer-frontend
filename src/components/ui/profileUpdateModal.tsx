@@ -9,6 +9,7 @@ import EHInput from "./EHInput";
 import useUpdateUserInfo from "@/hooks/useUpdateUserInfo";
 import { toast } from "sonner";
 import Spinner from "./spinner";
+import CustomComboBox from "./customCombobox";
 export type ProfileUpdateModalProps = {
     userPrefilledData: User
 }
@@ -27,6 +28,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 export default function ProfileUpdateModal({ userPrefilledData }: ProfileUpdateModalProps) {
     const [showForm, setShowForm] = useState<boolean>();
+    const [district, setDistrict] = useState<string>()
     const userData: User = userPrefilledData;
     const onClose = () => {
         setShowForm(false);
@@ -35,9 +37,8 @@ export default function ProfileUpdateModal({ userPrefilledData }: ProfileUpdateM
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormValues>({
         resolver: zodResolver(formSchema)
     })
-
     const handleUpdate = (data: FormValues) => {
-        updateUserInfo({ ...data, id: userPrefilledData.id })
+        updateUserInfo({ ...data, id: userPrefilledData.id, district })
 
         if (isError) {
             toast.error("Registration failed. Please check your details and try again.");
@@ -68,7 +69,9 @@ export default function ProfileUpdateModal({ userPrefilledData }: ProfileUpdateM
                             {errors.lastName && <p className="text-red-500 text-xs italic">{errors.lastName.message}</p>}
                             <EHInput placeholder={userData.email} value={userData.email} label={'Email'} type='text' {...register('email')} />
                             {errors.email && <p className="text-red-500 text-xs italic">{errors.email.message}</p>}
-                            <EHInput placeholder={userData.district} value={userData.district} label={'district'} type='text' {...register('district')} />
+                            {/* <EHInput placeholder={userData.district} value={userData.district} label={'district'} type='text' {...register('district')} />
+                             */}
+                            <CustomComboBox defaultDistrict={userData.district} setDistrict={setDistrict} {...register('district')} />
                             {errors.district && <p className="text-red-500 text-xs italic">{errors.district.message}</p>}
                             <EHInput placeholder={userData.age} value={userData.age} label={'Your age'} type='text' {...register('age')} />
                             {errors.age && <p className="text-red-500 text-xs italic">{errors.age.message}</p>}
