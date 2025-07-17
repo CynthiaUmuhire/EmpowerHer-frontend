@@ -55,13 +55,13 @@ const FilteringCard: React.FC<FilteringCardProps> = ({
                 </div>
 
                 {/* Category Filter */}
-                <div className='flex md:justify-center'>
+                <div className='flex md:justify-center bg-secondary-50'>
                     <Select value={selectedCategory} onValueChange={onCategoryChange}>
                         <SelectTrigger>
                             {categoryIcon}
                             <SelectValue placeholder={categoryLabel} />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className='bg-secondary-50'>
                             <SelectItem value="all">{categoryLabel}</SelectItem>
                             {categories.map((category, index) => (
                                 <SelectItem key={index} value={category}>{category}</SelectItem>
@@ -77,7 +77,7 @@ const FilteringCard: React.FC<FilteringCardProps> = ({
                             {optionIcon}
                             <SelectValue placeholder={optionLabel} />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className='bg-secondary-50'>
                             <SelectItem value="all">{optionLabel}</SelectItem>
                             {options.map(option => {
                                 const value = typeof option === 'string' ? option : option.value;

@@ -77,7 +77,7 @@ export default function ProfileUpdateModal({ userPrefilledData }: ProfileUpdateM
                             {errors.age && <p className="text-red-500 text-xs italic">{errors.age.message}</p>}
                             <label className="flex flex-col ">
                                 Bio
-                                <textarea placeholder={userData.shotBio} value={userData.shotBio} {...register('shotBio')} className="border border-primary-100 rounded-md p-2 w-full focus:outline-secondary-200" />
+                                <textarea placeholder={userData.shotBio} {...register('shotBio')} className="border border-primary-100 rounded-md p-2 w-full focus:outline-secondary-200" />
                                 {errors.shotBio && <p className="text-red-500 text-xs italic">{errors.shotBio.message}</p>}
 
                             </label>
