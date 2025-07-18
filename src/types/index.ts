@@ -18,6 +18,15 @@ export interface Registration {
   updatedAt: string;
   publishedAt: string | null;
 }
+export interface UserRole {
+  id: number;
+  documentId: string;
+  description: string;
+  type: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export interface User {
   id: number;
@@ -27,7 +36,7 @@ export interface User {
   createdAt: string;
   updatedAt: string;
   profilePicture?: string;
-  role: string;
+  role: string | UserRole;
   documentId: string;
   registrations?: Registration[];
   firstName: string;

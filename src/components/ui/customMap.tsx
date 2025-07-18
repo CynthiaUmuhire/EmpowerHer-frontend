@@ -1,8 +1,9 @@
 import { useRef, useEffect } from 'react';
 import maplibregl, { LngLatBounds, Marker } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+// import Rwanda from '../../../Rwanda.geojson'
 
-function CustomMap() {
+function CustomMap(dataSource) {
     const mapContainer = useRef<HTMLDivElement | null>(null);
     const map = useRef<maplibregl.Map | null>(null);
     const userPosition = useRef({
@@ -16,7 +17,7 @@ function CustomMap() {
         if (map.current) return;
         map.current = new maplibregl.Map({
             container: mapContainer.current,
-            style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
+            style: 'https://tiles.openfreemap.org/styles/liberty',
             center: [userPosition.current.longitude, userPosition.current.latitude],
             zoom: 6,
             bounds: llb
@@ -40,6 +41,69 @@ function CustomMap() {
                         return t;
                     }
                 })
+
+                map.current.on('load', () => {
+                    console.log('in the onload functionn')
+                    map.current?.addSource('groupsDistricts', {
+                        type: 'geojson',
+                        data: dataSource.coordinates,
+                        cluster: true,
+                        clusterMaxZoom: 14,
+                        clusterRadius: 50
+                    })
+                })
+                map.current.addLayer({
+                    id: 'clusters',
+                    type: 'circle',
+                    source: 'groupsDistricts',
+                    filter: ['has', 'point_count'],
+                    paint: {
+
+                        'circle-color': [
+                            'step',
+                            ['get', 'point_count'],
+                            '#51bbd6',
+                            100,
+                            '#f1f075',
+                            750,
+                            '#f28cb1'
+                        ],
+                        'circle-radius': [
+                            'step',
+                            ['get', 'point_count'],
+                            20,
+                            100,
+                            30,
+                            750,
+                            40
+                        ]
+                    }
+                });
+                map.current.addLayer({
+                    id: 'cluster-count',
+                    type: 'symbol',
+                    source: 'groupsDistricts',
+                    filter: ['has', 'point_count'],
+                    layout: {
+                        'text-field': '{point_count_abbreviated}',
+                        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+                        'text-size': 12
+                    }
+                });
+
+                map.current.addLayer({
+                    id: 'unclustered-point',
+                    type: 'circle',
+                    source: 'groupsDistricts',
+                    filter: ['!', ['has', 'point_count']],
+                    paint: {
+                        'circle-color': '#11b4da',
+                        'circle-radius': 4,
+                        'circle-stroke-width': 1,
+                        'circle-stroke-color': '#fff'
+                    }
+                });
+
             }
         });
     }, []);

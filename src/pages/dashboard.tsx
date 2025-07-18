@@ -15,6 +15,7 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D'
 
 export default function Dashboard() {
     const { stats, isLoading, isError } = useDashboard();
+    console.log('stats', stats)
     const navigate = useNavigate();
     useEffect(() => {
         const userRole = localStorage.getItem('userRole');
@@ -85,7 +86,7 @@ export default function Dashboard() {
 
                     {/* Charts Section */}
                     <div className="grid grid-cols-1  gap-8">
-                        <CustomMap />
+                        <CustomMap dataSource={stats?.districtFeatures} />
                     </div>
 
                     {/* Detailed Tables */}
