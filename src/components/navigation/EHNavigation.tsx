@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import CustomdropDown from "../ui/customdropDown";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { useEffect, useState } from "react";
+import { User2 } from "lucide-react";
 
 const arrayLinks = Object.entries(Links.protected);
 export function EHNavigation() {
@@ -20,7 +21,6 @@ export function EHNavigation() {
             return link[0] === 'Dashboard'
         }
     });
-    console.log(filteredLinks, '------')
     return (
         <section>
             <div className="flex items-center justify-between bg-secondary-50 p-4">
@@ -47,8 +47,8 @@ export function EHNavigation() {
                             isActive ? "text-secondary-800" : "text-primary-800"
                         }
                     >
-                        <div className="w-12 h-12 shrink-0 rounded-full overflow-hidden">
-                            <img src="../../../simbalike.jpg" alt="profile image" className=" object-fit w-full h-full " />
+                        <div className=" shrink-0 rounded-full overflow-hidden">
+                            <User2 />
                         </div>
                     </NavLink>
                 </div>

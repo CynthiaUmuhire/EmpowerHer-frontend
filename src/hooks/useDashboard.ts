@@ -6,7 +6,6 @@ export default function useDashboard() {
     const { data, isLoading, isError } = useQuery({
         queryKey: ['dashboard-stats'],
         queryFn: async () => {
-
             const [usersResponse, groupsResponse] = await Promise.all([
                 api.getAllUsers(),
                 api.getAllSupportGroups()
