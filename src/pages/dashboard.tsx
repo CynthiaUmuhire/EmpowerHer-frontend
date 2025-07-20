@@ -85,14 +85,16 @@ export default function Dashboard() {
                     </div>
 
                     {/* Charts Section */}
-                    <div className="grid grid-cols-1  gap-8">
-                        <CustomMap dataSource={stats?.districtFeatures} />
+                    <div className="grid grid-cols-1  gap-8 h-56">
+                        {stats?.districtFeatures && Object.keys(stats.districtFeatures).length > 0 && (
+                            <CustomMap dataSource={stats.districtFeatures} />
+                        )}
                     </div>
 
                     {/* Detailed Tables */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         {/* District Distribution Table */}
-                        <Card className="bg-white shadow-lg border-0">
+                        {/* <Card className="bg-white shadow-lg border-0">
                             <CardHeader>
                                 <CardTitle>District Distribution (Top 10)</CardTitle>
                             </CardHeader>
@@ -112,10 +114,10 @@ export default function Dashboard() {
                                     ))}
                                 </div>
                             </CardContent>
-                        </Card>
+                        </Card> */}
 
                         {/* Group Membership Table */}
-                        <Card className="bg-white shadow-lg border-0">
+                        {/* <Card className="bg-white shadow-lg border-0">
                             <CardHeader>
                                 <CardTitle>Group Membership (Top 10)</CardTitle>
                             </CardHeader>
@@ -138,7 +140,7 @@ export default function Dashboard() {
                                     ))}
                                 </div>
                             </CardContent>
-                        </Card>
+                        </Card> */}
                     </div>
                     <div className="self-end">
                         <CustomButton variant='secondary'>

@@ -19,6 +19,7 @@ import Events from "./pages/events"
 import { Toaster } from "./components/ui/sonner"
 import Dashboard from "./pages/dashboard"
 import DashboardLogin from "./pages/dashboardLogin"
+import { MapProvider } from "@vis.gl/react-maplibre"
 
 export default function App() {
   const routes = createBrowserRouter([
@@ -89,9 +90,11 @@ export default function App() {
     <ErrorBoundary>
       <Suspense fallback={<>Loading...</>}>
         <QueryClientProvider client={queryClient}>
-          <RouterProvider router={routes} />
-          <Toaster richColors />
-          <ReactQueryDevtools initialIsOpen={false} />
+          <MapProvider>
+            <RouterProvider router={routes} />
+            <Toaster richColors />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </MapProvider>
         </QueryClientProvider>
       </Suspense>
 

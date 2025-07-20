@@ -1,115 +1,258 @@
-import { useRef, useEffect } from 'react';
-import maplibregl, { LngLatBounds, Marker } from 'maplibre-gl';
-import 'maplibre-gl/dist/maplibre-gl.css';
-// import Rwanda from '../../../Rwanda.geojson'
+import {
+    LayerProps,
+    FullscreenControl,
+    GeolocateControl,
+    Layer,
+    Map,
+    MapRef,
+    NavigationControl,
+    Source,
+    Popup,
+} from "@vis.gl/react-maplibre";
+import { useMemo, useRef, useState } from "react";
 
-function CustomMap(dataSource) {
-    const mapContainer = useRef<HTMLDivElement | null>(null);
-    const map = useRef<maplibregl.Map | null>(null);
-    const userPosition = useRef({
-        latitude: 0,
-        longitude: 0
-    })
-    let llb = new LngLatBounds([28.95, -2.85, 30.90, -1.05]);
-
-    useEffect(() => {
-        if (!mapContainer.current) return;
-        if (map.current) return;
-        map.current = new maplibregl.Map({
-            container: mapContainer.current,
-            style: 'https://tiles.openfreemap.org/styles/liberty',
-            center: [userPosition.current.longitude, userPosition.current.latitude],
-            zoom: 6,
-            bounds: llb
-        });
-
-        navigator.geolocation.getCurrentPosition((e) => {
-            userPosition.current = {
-                latitude: e.coords.latitude,
-                longitude: e.coords.longitude
-            };
-            if (map.current) {
-                new Marker()
-                    .setLngLat([userPosition.current.longitude, userPosition.current.latitude])
-                    .addTo(map.current);
-                map.current.flyTo({
-                    center: [userPosition.current.longitude, userPosition.current.latitude],
-                    zoom: 10,
-                    speed: 1,
-                    curve: 1,
-                    easing(t) {
-                        return t;
-                    }
-                })
-
-                map.current.on('load', () => {
-                    console.log('in the onload functionn')
-                    map.current?.addSource('groupsDistricts', {
-                        type: 'geojson',
-                        data: dataSource.coordinates,
-                        cluster: true,
-                        clusterMaxZoom: 14,
-                        clusterRadius: 50
-                    })
-                })
-                map.current.addLayer({
-                    id: 'clusters',
-                    type: 'circle',
-                    source: 'groupsDistricts',
-                    filter: ['has', 'point_count'],
-                    paint: {
-
-                        'circle-color': [
-                            'step',
-                            ['get', 'point_count'],
-                            '#51bbd6',
-                            100,
-                            '#f1f075',
-                            750,
-                            '#f28cb1'
-                        ],
-                        'circle-radius': [
-                            'step',
-                            ['get', 'point_count'],
-                            20,
-                            100,
-                            30,
-                            750,
-                            40
-                        ]
-                    }
-                });
-                map.current.addLayer({
-                    id: 'cluster-count',
-                    type: 'symbol',
-                    source: 'groupsDistricts',
-                    filter: ['has', 'point_count'],
-                    layout: {
-                        'text-field': '{point_count_abbreviated}',
-                        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-                        'text-size': 12
-                    }
-                });
-
-                map.current.addLayer({
-                    id: 'unclustered-point',
-                    type: 'circle',
-                    source: 'groupsDistricts',
-                    filter: ['!', ['has', 'point_count']],
-                    paint: {
-                        'circle-color': '#11b4da',
-                        'circle-radius': 4,
-                        'circle-stroke-width': 1,
-                        'circle-stroke-color': '#fff'
-                    }
-                });
-
-            }
-        });
-    }, []);
-    return (
-        <div ref={mapContainer} id='map' style={{ width: '100%', height: '500px' }} />
-    );
+interface SupportGroup {
+    id: string;
+    name: string;
+    district: string;
+    memberCount: number;
+    coordinates: [number, number]; // [lng, lat]
 }
 
-export default CustomMap;
+export interface DistrictData {
+    supportGroups: SupportGroup[];
+    totalPeople: number;
+}
+
+const INITIAL_VIEW_STATE = {
+    latitude: -1.9403,
+    longitude: 29.8739,
+    zoom: 8,
+
+};
+const RWANDA_BOUNDS: [[number, number], [number, number]] = [
+    [28.8, -2.9],
+    [31.0, -1.0],
+];
+
+
+// Convert support groups to GeoJSON
+const supportGroupsToGeoJSON = (data: Record<string, DistrictData>) => {
+    const features: { type: "Feature"; properties: { id: any; name: any; district: string; memberCount: any; }; geometry: { type: "Point"; coordinates: any; }; }[] = [];
+
+    for (const [district, districtData] of Object.entries(data.dataSource)) {
+        districtData.supportGroups.forEach((sg: SupportGroup) => {
+            features.push({
+                type: "Feature" as const,
+                properties: {
+                    id: sg.id,
+                    name: sg.name,
+                    district,
+                    memberCount: sg.memberCount,
+                },
+                geometry: {
+                    type: "Point" as const,
+                    coordinates: sg.coordinates,
+                },
+            });
+        });
+    }
+
+    return {
+        type: "FeatureCollection" as const,
+        features,
+    };
+};
+
+// Cluster layer configuration
+const clusterLayer: LayerProps = {
+    id: "clusters",
+    type: "circle",
+    source: "support-groups",
+    filter: ["has", "point_count"],
+    paint: {
+        "circle-color": [
+            "step",
+            ["get", "point_count"],
+            "#51bbd6", // Default color
+            5,
+            "#f1f075", // Medium clusters
+            10,
+            "#f28cb1", // Large clusters
+        ],
+        "circle-radius": [
+            "step",
+            ["get", "point_count"],
+            15, // Default size
+            5,
+            20,
+            10,
+            25,
+        ],
+        "circle-stroke-width": 2,
+        "circle-stroke-color": "#fff",
+    },
+};
+
+// Cluster count layer
+const clusterCountLayer: LayerProps = {
+    id: "cluster-count",
+    type: "symbol",
+    source: "support-groups",
+    filter: ["has", "point_count"],
+    layout: {
+        "text-field": "{point_count_abbreviated}",
+        "text-font": ["Noto Sans Regular"], // Compatible with OpenFreeMap
+        "text-size": 12,
+        "text-allow-overlap": true,
+    },
+};
+
+// Single point layer for support groups
+const supportGroupPointLayer: LayerProps = {
+    id: "supportgroup-point",
+    type: "circle",
+    source: "support-groups",
+    filter: ["all", ["!", ["has", "point_count"]]],
+    paint: {
+        "circle-color": "#f0a732",
+        "circle-radius": 8,
+        "circle-stroke-width": 1,
+        "circle-stroke-color": "#fff",
+    },
+};
+
+// District boundary layer (optional)
+const districtBoundaryLayer: LayerProps = {
+    id: "district-boundaries",
+    type: "line",
+    source: "districts",
+    paint: {
+        "line-color": "#4e3fc8",
+        "line-width": 2,
+        "line-opacity": 0.5,
+    },
+};
+
+export default function CustomMap(dataSource) {
+    const mapRef = useRef<MapRef>(null);
+    const [supportGroupData, setSupportGroupData] = useState<Record<string, DistrictData>>(dataSource);
+    const [popupInfo, setPopupInfo] = useState<{
+        type: string;
+        name: string;
+        count: number;
+        coordinates: [number, number];
+        district?: string;
+    } | null>(null);
+
+    const geoJsonData = useMemo(() => supportGroupsToGeoJSON(supportGroupData), [supportGroupData]);
+    ;
+
+    const handleClusterClick = async (event: any) => {
+        const feature = event.features?.[0];
+        if (!feature || !mapRef.current) return;
+        console.log(event.features[0], '----------')
+
+        if (feature.properties?.cluster_id) {
+            const source = mapRef.current.getSource("support-groups") as any;
+            const zoom = await source.getClusterExpansionZoom(feature.properties.cluster_id);
+
+            mapRef.current.easeTo({
+                center: feature.geometry.coordinates,
+                zoom,
+                duration: 500,
+            });
+        } else {
+            console.log(feature.geometry.coordinates, '*******')
+            const [lng, lat] = feature.geometry.coordinates;
+            const props = feature.properties;
+
+            console.log(props, 'propasss')
+
+            setPopupInfo({
+                type: "supportGroup",
+                name: props.name,
+                district: props.district,
+                count: props.memberCount,
+                coordinates: [lng, lat],
+            });
+        }
+    };
+
+    return (
+        <div className="relative w-full max-w-full h-[400px] overflow-hidden z-0">
+
+            <Map
+                ref={mapRef}
+                initialViewState={INITIAL_VIEW_STATE}
+                mapStyle="https://tiles.openfreemap.org/styles/liberty"
+                interactiveLayerIds={[clusterLayer.id!, supportGroupPointLayer.id!]}
+                // style={{ width: '100%', height: '100%' }}
+                onClick={handleClusterClick}
+            >
+                <Source
+                    id="support-groups"
+                    type="geojson"
+                    data={geoJsonData}
+                    cluster={true}
+                    clusterMaxZoom={14}
+                    clusterRadius={50}
+                    clusterProperties={{
+                        memberCount: ["+", ["get", "memberCount"]],
+                    }}
+                >
+                    <Layer {...clusterLayer} />
+                    <Layer {...clusterCountLayer} />
+                    <Layer {...supportGroupPointLayer} />
+                </Source>
+
+                {popupInfo && (
+                    <Popup
+                        anchor="top"
+                        longitude={popupInfo.coordinates[0]}
+                        latitude={popupInfo.coordinates[1]}
+                        // closeOnClick={false}
+                        // closeButton={true}
+                        // offset={20}
+                        onClose={() => setPopupInfo(null)}
+                    >
+                        <div className="p-2 max-w-xs bg-error-400 z-2">
+                            <h3 className="font-bold text-lg">{popupInfo.name}</h3>
+                            <p className="text-sm text-gray-600">{popupInfo.district} District</p>
+                            <p className="mt-1">
+                                <span className="font-medium">Members:</span> {popupInfo.count}
+                            </p>
+                        </div>
+                    </Popup>
+                )}
+            </Map>
+        </div>
+        // <div className="">
+        //     {/* 
+        //     <div className="absolute bottom-4 left-4 bg-white p-4 rounded shadow max-h-[50vh] overflow-hidden flex flex-col">
+        //         <h3 className="font-bold mb-2">Rwanda Support Groups</h3>
+        //         <div className="overflow-y-auto flex-grow">
+        //             {Object.entries(supportGroupData.dataSource)
+        //                 .sort((a, b) => b[1].totalPeople - a[1].totalPeople)
+        //                 .map(([district, data]) => (
+        //                     <div key={district} className="py-2 border-b">
+        //                         <div className="flex justify-between font-medium">
+        //                             <span>{district}:</span>
+        //                             <span>{data.totalPeople} people</span>
+        //                         </div>
+        //                         <div className="text-sm text-gray-600 mt-1">{data.supportGroups.length} support groups</div>
+        //                         <div className="mt-1 grid grid-cols-2 gap-1">
+        //                             {data.supportGroups.map((sg: SupportGroup) => (
+        //                                 <div key={sg.id} className="text-xs flex justify-between px-2 py-1 bg-gray-100 rounded">
+        //                                     <span className="truncate">{sg.name}:</span>
+        //                                     <span className="font-medium ml-2">{sg.memberCount}</span>
+        //                                 </div>
+        //                             ))}
+        //                         </div>
+        //                     </div>
+        //                 ))}
+        //         </div>
+        //     </div> */}
+        // </div>
+    );
+}

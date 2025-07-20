@@ -44,6 +44,9 @@ importers:
       '@tanstack/react-query-devtools':
         specifier: ^5.81.2
         version: 5.81.2(@tanstack/react-query@5.81.2(react@19.0.0))(react@19.0.0)
+      '@vis.gl/react-maplibre':
+        specifier: ^8.0.4
+        version: 8.0.4(maplibre-gl@5.6.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       axios:
         specifier: ^1.7.9
         version: 1.7.9
