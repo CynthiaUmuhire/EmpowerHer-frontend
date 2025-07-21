@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "jest"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
@@ -49,8 +50,15 @@
     "zod": "^3.25.67"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
     "@eslint/js": "^9.17.0",
     "@tanstack/eslint-plugin-query": "^5.73.3",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^30.0.0",
     "@types/lodash.throttle": "^4.1.9",
     "@types/node": "^22.10.6",
     "@types/react": "^19.0.7",
@@ -59,16 +67,22 @@
     "@typescript-eslint/parser": "^8.20.0",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
+    "babel-jest": "^30.0.4",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.18",
     "globals": "^15.14.0",
+    "jest": "^30.0.4",
+    "jest-environment-jsdom": "^30.0.4",
     "postcss": "^8.5.1",
     "prettier": "3.5.3",
+    "ts-jest": "^29.4.0",
+    "ts-node": "^10.9.2",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.18.2",
+    "util": "^0.12.5",
     "vite": "^6.0.5"
   }
 }
