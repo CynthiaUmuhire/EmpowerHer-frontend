@@ -24,7 +24,6 @@ export default function Dashboard() {
             navigate(Links.auth.Login, { replace: true });
         }
     }, [navigate]);
-    // useMap()
     if (isLoading) {
         return (
             <section className="flex items-center justify-center h-screen bg-secondary-50">
@@ -85,16 +84,32 @@ export default function Dashboard() {
                     </div>
 
                     {/* Charts Section */}
-                    <div className="grid grid-cols-1  gap-8 h-56">
+                    <div className="grid grid-cols-1  gap-8">
                         {stats?.districtFeatures && Object.keys(stats.districtFeatures).length > 0 && (
-                            <CustomMap dataSource={stats.districtFeatures} />
+                            <CustomMap
+                                dataSource={Object.fromEntries(
+                                    Object.entries(stats.districtFeatures).map(([district, data]) => [
+                                        district,
+                                        {
+                                            ...data,
+                                            supportGroups: data.supportGroups.map(group => ({
+                                                ...group,
+                                                id: String(group.id),
+                                                coordinates: Array.isArray(group.coordinates) && group.coordinates.length === 2
+                                                    ? [group.coordinates[0], group.coordinates[1]]
+                                                    : [0, 0], // fallback to [0,0] if not valid
+                                            })),
+                                        },
+                                    ])
+                                )}
+                            />
                         )}
                     </div>
 
                     {/* Detailed Tables */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         {/* District Distribution Table */}
-                        {/* <Card className="bg-white shadow-lg border-0">
+                        <Card className="bg-white shadow-lg border-0">
                             <CardHeader>
                                 <CardTitle>District Distribution (Top 10)</CardTitle>
                             </CardHeader>
@@ -109,15 +124,15 @@ export default function Dashboard() {
                                                 />
                                                 <span className="font-medium">{item.district}</span>
                                             </div>
-                                            <span className="font-bold text-primary">{item.count}</span>
+                                            <span className="font-bold text-primary">{item.supportGroupCount}</span>
                                         </div>
                                     ))}
                                 </div>
                             </CardContent>
-                        </Card> */}
+                        </Card>
 
                         {/* Group Membership Table */}
-                        {/* <Card className="bg-white shadow-lg border-0">
+                        <Card className="bg-white shadow-lg border-0">
                             <CardHeader>
                                 <CardTitle>Group Membership (Top 10)</CardTitle>
                             </CardHeader>
@@ -140,7 +155,7 @@ export default function Dashboard() {
                                     ))}
                                 </div>
                             </CardContent>
-                        </Card> */}
+                        </Card>
                     </div>
                     <div className="self-end">
                         <CustomButton variant='secondary'>

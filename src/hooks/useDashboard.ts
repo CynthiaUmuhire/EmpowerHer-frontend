@@ -15,31 +15,33 @@ export default function useDashboard() {
             const mothers: User[] = usersResponse.filter((user: User) => typeof user.role !== 'string' && user.role.type === 'mother'
             );
             const groups: Group[] = groupsResponse.data || [];
-            // console.log(mothers, 'mothers', groups, 'groups');
             const districtFeatures = shapeDashboardData({
                 users: mothers,
                 supportGroups: groups
             });
-            console.log(districtFeatures, 'districtFeatures');
-            // const groupMembership = districtFeatures.supportGroups.supportGroups.map(group => ({
-            //     groupId: group.id,
-            //     groupName: group.name,
-            //     memberCount: group.memberCount,
-            //     district: group.district,
-            //     contacts: group.contacts
-            // }))
+            console.log('districtFeatures', districtFeatures);
+            const groupMembership = Object.values(districtFeatures)
+                .flatMap(district =>
+                    (district.supportGroups || []).map(group => ({
+                        groupId: group.id,
+                        groupName: group.name,
+                        memberCount: group.memberCount,
+                        district: group.district,
+                        contacts: group.contacts
+                    }))
+                );
+            const districtDistribution = Object.entries(districtFeatures).map(([districtName, district]) => ({
+                district: districtName,
+                supportGroupCount: district.supportGroups.length
+            })).sort((a, b) => b.supportGroupCount - a.supportGroupCount);
 
-            // const districtDistribution = districtFeatures.supportGroups.supportGroups.map(group => ({
-            //     district: group.district,
-            //     count: group.memberCount
-            // }));
 
             return {
                 districtFeatures,
                 totalMothers: mothers.length,
                 totalGroups: groups.length,
-                // groupMembership,
-                // districtDistribution,
+                groupMembership,
+                districtDistribution,
             };
         },
         staleTime: 1000 * 60 * 5,

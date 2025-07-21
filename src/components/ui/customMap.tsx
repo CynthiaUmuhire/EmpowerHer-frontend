@@ -1,13 +1,8 @@
 import {
-    LayerProps,
-    FullscreenControl,
-    GeolocateControl,
-    Layer,
+    LayerProps, Layer,
     Map,
-    MapRef,
-    NavigationControl,
-    Source,
-    Popup,
+    MapRef, Source,
+    Popup
 } from "@vis.gl/react-maplibre";
 import { useMemo, useRef, useState } from "react";
 
@@ -17,6 +12,7 @@ interface SupportGroup {
     district: string;
     memberCount: number;
     coordinates: [number, number]; // [lng, lat]
+    contacts: string;
 }
 
 export interface DistrictData {
@@ -30,17 +26,12 @@ const INITIAL_VIEW_STATE = {
     zoom: 8,
 
 };
-const RWANDA_BOUNDS: [[number, number], [number, number]] = [
-    [28.8, -2.9],
-    [31.0, -1.0],
-];
-
 
 // Convert support groups to GeoJSON
 const supportGroupsToGeoJSON = (data: Record<string, DistrictData>) => {
-    const features: { type: "Feature"; properties: { id: any; name: any; district: string; memberCount: any; }; geometry: { type: "Point"; coordinates: any; }; }[] = [];
+    const features: { type: "Feature"; properties: { id: any; name: any; district: string; memberCount: any; contacts: string; }; geometry: { type: "Point"; coordinates: any; }; }[] = [];
 
-    for (const [district, districtData] of Object.entries(data.dataSource)) {
+    for (const [district, districtData] of Object.entries(data)) {
         districtData.supportGroups.forEach((sg: SupportGroup) => {
             features.push({
                 type: "Feature" as const,
@@ -49,6 +40,7 @@ const supportGroupsToGeoJSON = (data: Record<string, DistrictData>) => {
                     name: sg.name,
                     district,
                     memberCount: sg.memberCount,
+                    contacts: sg.contacts
                 },
                 geometry: {
                     type: "Point" as const,
@@ -122,7 +114,7 @@ const supportGroupPointLayer: LayerProps = {
     },
 };
 
-// District boundary layer (optional)
+// District boundary layer
 const districtBoundaryLayer: LayerProps = {
     id: "district-boundaries",
     type: "line",
@@ -134,24 +126,22 @@ const districtBoundaryLayer: LayerProps = {
     },
 };
 
-export default function CustomMap(dataSource) {
-    const mapRef = useRef<MapRef>(null);
-    const [supportGroupData, setSupportGroupData] = useState<Record<string, DistrictData>>(dataSource);
+export default function CustomMap({ dataSource }: { dataSource: Record<string, DistrictData> }) {
+    const mapRef = useRef<MapRef>(null)
+
     const [popupInfo, setPopupInfo] = useState<{
         type: string;
         name: string;
         count: number;
         coordinates: [number, number];
         district?: string;
+        contacts: string;
     } | null>(null);
-
-    const geoJsonData = useMemo(() => supportGroupsToGeoJSON(supportGroupData), [supportGroupData]);
-    ;
+    const geoJsonData = useMemo(() => supportGroupsToGeoJSON(dataSource), [dataSource]);;
 
     const handleClusterClick = async (event: any) => {
         const feature = event.features?.[0];
         if (!feature || !mapRef.current) return;
-        console.log(event.features[0], '----------')
 
         if (feature.properties?.cluster_id) {
             const source = mapRef.current.getSource("support-groups") as any;
@@ -163,39 +153,35 @@ export default function CustomMap(dataSource) {
                 duration: 500,
             });
         } else {
-            console.log(feature.geometry.coordinates, '*******')
             const [lng, lat] = feature.geometry.coordinates;
             const props = feature.properties;
-
-            console.log(props, 'propasss')
-
             setPopupInfo({
                 type: "supportGroup",
                 name: props.name,
                 district: props.district,
                 count: props.memberCount,
                 coordinates: [lng, lat],
+                contacts: props.contacts
             });
         }
     };
 
     return (
-        <div className="relative w-full max-w-full h-[400px] overflow-hidden z-0">
-
+        <div className="relative w-full max-w-full h-[400px]">
             <Map
                 ref={mapRef}
                 initialViewState={INITIAL_VIEW_STATE}
                 mapStyle="https://tiles.openfreemap.org/styles/liberty"
                 interactiveLayerIds={[clusterLayer.id!, supportGroupPointLayer.id!]}
-                // style={{ width: '100%', height: '100%' }}
                 onClick={handleClusterClick}
+                maplibreLogo={false}
             >
                 <Source
                     id="support-groups"
                     type="geojson"
                     data={geoJsonData}
                     cluster={true}
-                    clusterMaxZoom={14}
+                    clusterMaxZoom={10}
                     clusterRadius={50}
                     clusterProperties={{
                         memberCount: ["+", ["get", "memberCount"]],
@@ -204,21 +190,20 @@ export default function CustomMap(dataSource) {
                     <Layer {...clusterLayer} />
                     <Layer {...clusterCountLayer} />
                     <Layer {...supportGroupPointLayer} />
+                    <Layer {...districtBoundaryLayer} />
                 </Source>
 
                 {popupInfo && (
                     <Popup
-                        anchor="top"
+                        anchor="bottom"
                         longitude={popupInfo.coordinates[0]}
                         latitude={popupInfo.coordinates[1]}
-                        // closeOnClick={false}
-                        // closeButton={true}
-                        // offset={20}
                         onClose={() => setPopupInfo(null)}
                     >
-                        <div className="p-2 max-w-xs bg-error-400 z-2">
+                        <div className="p-2 max-w-xs bg-accent-50">
                             <h3 className="font-bold text-lg">{popupInfo.name}</h3>
                             <p className="text-sm text-gray-600">{popupInfo.district} District</p>
+                            <p className="text-sm text-gray-600">Contacts: {popupInfo.contacts}</p>
                             <p className="mt-1">
                                 <span className="font-medium">Members:</span> {popupInfo.count}
                             </p>
@@ -227,32 +212,6 @@ export default function CustomMap(dataSource) {
                 )}
             </Map>
         </div>
-        // <div className="">
-        //     {/* 
-        //     <div className="absolute bottom-4 left-4 bg-white p-4 rounded shadow max-h-[50vh] overflow-hidden flex flex-col">
-        //         <h3 className="font-bold mb-2">Rwanda Support Groups</h3>
-        //         <div className="overflow-y-auto flex-grow">
-        //             {Object.entries(supportGroupData.dataSource)
-        //                 .sort((a, b) => b[1].totalPeople - a[1].totalPeople)
-        //                 .map(([district, data]) => (
-        //                     <div key={district} className="py-2 border-b">
-        //                         <div className="flex justify-between font-medium">
-        //                             <span>{district}:</span>
-        //                             <span>{data.totalPeople} people</span>
-        //                         </div>
-        //                         <div className="text-sm text-gray-600 mt-1">{data.supportGroups.length} support groups</div>
-        //                         <div className="mt-1 grid grid-cols-2 gap-1">
-        //                             {data.supportGroups.map((sg: SupportGroup) => (
-        //                                 <div key={sg.id} className="text-xs flex justify-between px-2 py-1 bg-gray-100 rounded">
-        //                                     <span className="truncate">{sg.name}:</span>
-        //                                     <span className="font-medium ml-2">{sg.memberCount}</span>
-        //                                 </div>
-        //                             ))}
-        //                         </div>
-        //                     </div>
-        //                 ))}
-        //         </div>
-        //     </div> */}
-        // </div>
+
     );
 }
