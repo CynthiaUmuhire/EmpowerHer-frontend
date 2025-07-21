@@ -11,14 +11,17 @@ import * as z from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
-    email: z.string().email().trim(),
-    phoneNumber: z.coerce.string().min(10),
+    email: z.string().email("Email must be valid").trim(),
+    phoneNumber: z.coerce.string({ message: "Phone number must be valid" }).min(10),
     password: z.string().min(6),
     confirmPassword: z.string().min(6),
     role: z.enum(["mother", "facilitator"]),
-    firstName: z.string().min(2),
-    lastName: z.string().min(2),
-    name: z.string().min(1)
+    firstName: z.string().min(2, { message: "The first name must be at least 2 characters" }),
+    lastName: z.string().min(2, { message: "The last name must be at least 2 characters" }),
+    name: z.string().min(1, { message: "The name must be provided" })
+}).refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords must match',
+    path: ["confirmPassword"]
 });
 
 export type RegistrationFormValues = z.infer<typeof formSchema>;
