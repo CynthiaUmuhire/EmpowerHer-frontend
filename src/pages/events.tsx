@@ -19,6 +19,7 @@ export default function Events() {
     })
     const categories = ["Cancelled", "Completed", "Upcoming"]
     const options = ['Reserve', "Decline", "Maybe"]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const throttledSetQuerySearchTerm = useCallback(
         throttle((value: string) => {
             setQuerySearchterm(value);

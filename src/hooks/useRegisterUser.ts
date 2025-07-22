@@ -12,7 +12,7 @@ export default function useRegisterUser() {
         data,
         isSuccess,
         reset
-    } = useMutation<any, Error, NewUser>({
+    } = useMutation<NewUser, Error, NewUser>({
         mutationFn: async (userData: NewUser) => {
             const response = await api.register({
                 name: userData.name,

@@ -14,7 +14,7 @@ export default function useUpdateUserInfo() {
         data,
         isSuccess,
         reset
-    } = useMutation<any, Error, Partial<User>>({
+    } = useMutation<User, Error, Partial<User>>({
         mutationFn: async (userData: Partial<User>) => {
             const response = await api.updateUserInfo({
                 ...userData,
