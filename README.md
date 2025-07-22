@@ -124,7 +124,8 @@ EmpowerHer-frontend/
 
 1. **Version Control:** GitHub for tracking code changes.
 2. **Hosting:** Vercel for fast and reliable deployment.
-
+3. **CI/CD:** Github action 
+ 
 ---
 
 ## Backend Repository
