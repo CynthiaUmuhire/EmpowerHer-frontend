@@ -23,7 +23,7 @@ EmpowerHer-frontend is a React web application that brings together support grou
 
 ## Demo Video
 
-[![Watch the Demo](https://img.youtube.com/vi/your-demo-video-id/0.jpg)](https://www.youtube.com/watch?v=your-demo-video-id)
+[![Watch the Demo](https://youtu.be/puIWICosN_Q)](https://youtu.be/puIWICosN_Q)
 
 > **Note:** The demo focuses on the core functionalities:  
 > - Browsing and searching support groups  
