@@ -60,7 +60,7 @@ export default function App() {
       element: <UnprotectedLayout />,
       children: [
         {
-          path: Links.public.Landing,
+          index: true,
           element: <Landing />
         }
       ],

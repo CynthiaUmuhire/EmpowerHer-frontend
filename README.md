@@ -38,9 +38,7 @@ EmpowerHer-frontend is a React web application that brings together support grou
 
 ## Live Demo / Download
 
-- **Live App:** [empower-her-frontend-omega.vercel.app
-](empower-her-frontend-omega.vercel.app
-)  
+- **Live App:** [empower-her-frontend-omega.vercel.app](https://empower-her-frontend-omega.vercel.app/) 
  
 
 - **Backend Repo:** [EmpowerHer-Backend](https://github.com/CynthiaUmuhire/EmpowerHer-Backend.git)
