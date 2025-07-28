@@ -15,7 +15,6 @@ export default function Groups() {
     const [selectedRegion, setSelectedRegion] = useState("all");
     const [selectedOption, setSelectedOption] = useState("all");
 
-    // Get all unique regions from groups
     const regionOptions = useMemo(() => {
         if (!groups) return [];
         const regions = Array.from(new Set(groups.map(g => g.district || "Other")));

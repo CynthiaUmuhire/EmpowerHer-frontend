@@ -4,7 +4,6 @@ import CustomButton from "@/components/ui/customButton";
 import EmailTemplate from "@/components/ui/emailTemplate";
 import { RequestToJoinForm } from "@/components/ui/requestToJoinGroup";
 import Spinner from "@/components/ui/spinner";
-import TypeBadge from "@/components/ui/typeBadge";
 import useGroupDetails from "@/hooks/useGroupDetails";
 import useUserInfo from "@/hooks/useUserInfo";
 import Links from "@/routes/Links";
@@ -54,7 +53,6 @@ export default function GroupDetails() {
                                 </Link>
                                 <h1 className="text-4xl md:text-5xl font-bold mb-2">{groupDetails?.name}</h1>
                                 <div className="flex items-center space-x-4 text-primary-50">
-                                    <TypeBadge type="Hard code type" />
                                     <span className="flex items-center">
                                         <Users className="w-4 h-4 mr-1" />
                                         {groupDetails?.members} members

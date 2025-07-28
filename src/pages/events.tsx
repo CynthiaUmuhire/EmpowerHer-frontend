@@ -61,7 +61,7 @@ export default function Events() {
                         optionIcon={<Settings className="w-4 h-4 mr-2" />}
                         handleOnClick={handleFilter}
                     />
-                    {!events || events.length <= 0 ? (
+                    {!isLoading && (!events || events.length) <= 0 ? (
                         <div className="text-2xl font-bold text-center w-full flex flex-col items-center justify-center h-full ">
                             <span>There are no events posted yet!</span>
                         </div>
