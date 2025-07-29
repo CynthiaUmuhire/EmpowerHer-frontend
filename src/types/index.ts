@@ -91,6 +91,7 @@ export type Group = {
   createdAt: string;
   district?: string;
   region?: string;
+  registrations: Registration[];
 }
 
 export enum GroupStatus {

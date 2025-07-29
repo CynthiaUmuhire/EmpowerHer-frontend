@@ -63,17 +63,17 @@ export default function ProfileUpdateModal({ userPrefilledData }: ProfileUpdateM
                             </DialogTitle>
                         </DialogHeader>
                         <form className="flex flex-col gap-4 " >
-                            <EHInput placeholder={userData.firstName} value={userData.firstName} label={'First Name'} type='text' {...register('firstName')} />
+                            <EHInput placeholder={userData.firstName} label={'First Name'} type='text' {...register('firstName')} />
                             {errors.firstName && <p className="text-red-500 text-xs italic">{errors.firstName.message}</p>}
-                            <EHInput placeholder={userData.lastName} value={userData.lastName} label={'Last Name'} type='text' {...register('lastName')} />
+                            <EHInput placeholder={userData.lastName} label={'Last Name'} type='text' {...register('lastName')} />
                             {errors.lastName && <p className="text-red-500 text-xs italic">{errors.lastName.message}</p>}
-                            <EHInput placeholder={userData.email} value={userData.email} label={'Email'} type='text' {...register('email')} />
+                            <EHInput placeholder={userData.email} label={'Email'} type='text' {...register('email')} />
                             {errors.email && <p className="text-red-500 text-xs italic">{errors.email.message}</p>}
                             {/* <EHInput placeholder={userData.district} value={userData.district} label={'district'} type='text' {...register('district')} />
                              */}
                             <CustomComboBox defaultDistrict={userData.district} setDistrict={setDistrict} {...register('district')} />
                             {errors.district && <p className="text-red-500 text-xs italic">{errors.district.message}</p>}
-                            <EHInput placeholder={userData.age} value={userData.age} label={'Your age'} type='text' {...register('age')} />
+                            <EHInput placeholder={userData.age} label={'Your age'} type='text' {...register('age')} />
                             {errors.age && <p className="text-red-500 text-xs italic">{errors.age.message}</p>}
                             <label className="flex flex-col ">
                                 Bio

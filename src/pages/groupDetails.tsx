@@ -1,31 +1,16 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import CenteredContent from "@/components/ui/CenteredContent";
 import CustomButton from "@/components/ui/customButton";
-import EmailTemplate from "@/components/ui/emailTemplate";
 import { RequestToJoinForm } from "@/components/ui/requestToJoinGroup";
 import Spinner from "@/components/ui/spinner";
 import useGroupDetails from "@/hooks/useGroupDetails";
-import useUserInfo from "@/hooks/useUserInfo";
 import Links from "@/routes/Links";
 import { ArrowLeft, MapPin, Phone, Share2, Users } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
-import { Resend } from 'resend';
 
 export default function GroupDetails() {
     const { groupId } = useParams<{ groupId: string }>();
     const { group: groupDetails, isLoading, isError } = useGroupDetails(groupId);
-    const { user } = useUserInfo();
-
-    const resend = new Resend('re_Q9bJnYTs_9yaGHxEPAZ2E6jT4zcbo3FyU');
-    const handleContactFacilitator = async () => {
-        const res = await resend.emails.send({
-            from: 'you@example.com',
-            to: 'user@gmail.com',
-            subject: 'Facilitator Contact Request',
-            react: <EmailTemplate name={user.username} email={user.phoneNumber} />,
-        });
-        console.log('Email sent successfully:', res);
-    }
     return (
         <CenteredContent>
             {isLoading && (
@@ -61,36 +46,17 @@ export default function GroupDetails() {
                             </div>
                         </div>
                     </div>
-                    <div className="grid grid-cols-1 lg:grid-cols-2  bg-secondary-50 justify-around items-start px-4 sm:px-6 lg:px-8 py-8 gap-6">
+                    <div className="grid  bg-secondary-50 justify-around items-start px-4  py-8 gap-6">
                         {/* The main content section */}
-                        <div className="">
-                            <div className="space-y-6">
-                                <Card className="bg-white shadow-md  border-primary-200">
-                                    <CardHeader>
-                                        <CardTitle>About This Group</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p className="text-gray-600 leading-relaxed">{groupDetails.description}</p>
-                                    </CardContent>
-                                </Card>
-                                <Card className="bg-white shadow-md  border-primary-200">
-                                    <CardHeader>
-                                        <CardTitle>Facilitator</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="flex items-start space-x-4">
-                                            <Users className="w-12 h-12 text-primary-600" />
-                                            <div>
-                                                <h4 className="font-semibold text-gray-900">Sarah Umutoni</h4>
-                                                <p className="text-gray-600 text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium neque laboriosam tempore consequatur vero iusto deserunt minima saepe porro corporis</p>
-                                            </div>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </div>
-                        </div>
-                        {/* The Side bar section */}
                         <div className="space-y-6">
+                            <Card className="bg-white shadow-md  border-primary-200">
+                                <CardHeader>
+                                    <CardTitle>About This Group</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <p className="text-gray-600 leading-relaxed">{groupDetails.description}</p>
+                                </CardContent>
+                            </Card>
                             {/* Quick Info Card */}
                             <Card className="bg-white shadow-md border-primary-200 ">
                                 <CardHeader>
@@ -119,16 +85,11 @@ export default function GroupDetails() {
                                     </div>
                                 </CardContent>
                             </Card>
-
-                            {/* Action Buttons */}
                             <Card className="bg-white shadow-md  border-primary-200">
                                 <CardContent className="p-6 space-y-3 flex flex-col w-full ">
                                     <RequestToJoinForm
                                         groupId={groupId || ''}
                                     />
-                                    <CustomButton variant="outline" onClick={handleContactFacilitator}>
-                                        Contact Facilitator
-                                    </CustomButton>
                                     <CustomButton variant="outline" >
                                         <Share2 className="w-4 h-4 mr-2" />
                                         Share Group

@@ -1,4 +1,4 @@
-import { Group, User } from '@/types';
+import { Group, RegistrationStatus, User } from '@/types';
 import { geoDistrictMap } from './geoDstrictMap';
 export function shapeDashboardData({ users, supportGroups }: { users: User[], supportGroups: Group[] }) {
     const groupedData: Record<string, {
@@ -28,8 +28,7 @@ export function shapeDashboardData({ users, supportGroups }: { users: User[], su
         acc[district].push(group);
         return acc;
     }, {});
-
-    // Build the result structure
+    // Combine both user and group data into the final structure
     const allDistricts = new Set([
         ...Object.keys(usersByDistrict),
         ...Object.keys(groupsByDistrict),
@@ -44,15 +43,14 @@ export function shapeDashboardData({ users, supportGroups }: { users: User[], su
                 id: group.id,
                 name: group.name,
                 district: district,
-                memberCount: group.members || 0,
+                memberCount: group.registrations.filter(reg => reg.registrationStatus === RegistrationStatus.APPROVED).length,
                 coordinates,
                 contacts: group.assistantContact
             };
         });
-
         groupedData[district] = {
             supportGroups,
-            totalPeople: usersByDistrict[district]?.length || 0,
+            totalPeople: usersByDistrict[district]?.length || 0
         };
     });
 

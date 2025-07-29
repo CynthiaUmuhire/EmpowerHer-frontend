@@ -19,7 +19,6 @@ export default function useDashboard() {
                 users: mothers,
                 supportGroups: groups
             });
-            console.log('districtFeatures', districtFeatures);
             const groupMembership = Object.values(districtFeatures)
                 .flatMap(district =>
                     (district.supportGroups || []).map(group => ({
@@ -29,7 +28,7 @@ export default function useDashboard() {
                         district: group.district,
                         contacts: group.contacts
                     }))
-                );
+                ).sort((a, b) => b.memberCount - a.memberCount);
             const districtDistribution = Object.entries(districtFeatures).map(([districtName, district]) => ({
                 district: districtName,
                 supportGroupCount: district.supportGroups.length
@@ -41,7 +40,7 @@ export default function useDashboard() {
                 totalMothers: mothers.length,
                 totalGroups: groups.length,
                 groupMembership,
-                districtDistribution,
+                districtDistribution
             };
         },
         staleTime: 1000 * 60 * 5,

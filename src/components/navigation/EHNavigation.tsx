@@ -1,5 +1,5 @@
 import Links from "@/routes/Links";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import CustomdropDown from "../ui/customdropDown";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { useEffect, useState } from "react";
@@ -24,9 +24,9 @@ export function EHNavigation() {
     return (
         <section>
             <div className="flex items-center justify-between bg-secondary-50 p-4">
-                <div>
+                <Link to={Links.protected.Home}>
                     <strong className="text-secondary-800">EmpowerHer</strong>
-                </div>
+                </Link>
                 <div className="md:flex gap-4 hidden ">
                     {filteredLinks.map((link) => (
                         <NavLink

@@ -1,5 +1,5 @@
 import api from "@/api/api";
-import { Group } from "@/types";
+import { Group, RegistrationStatus } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import generateImageUrl from "@/utils/generateImageUrl";
 import queryClient from "@/api/queryClient";
@@ -26,6 +26,10 @@ export default function useGroupDetails(groupId: string | undefined) {
             const group = groups?.find(group => group.documentId === groupId);
             return group;
         },
+        select: (data) => ({
+            ...data,
+            members: data.registrations.map(registration => registration.registrationStatus === RegistrationStatus.APPROVED).length
+        }),
         enabled: !!groupId,
         staleTime: 1000 * 60 * 1
     });

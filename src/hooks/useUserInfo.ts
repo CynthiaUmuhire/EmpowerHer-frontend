@@ -14,7 +14,6 @@ export default function useUserInfo() {
     select: (data) => {
       localStorage.setItem('userRole', data.role.type);
       localStorage.setItem('userId', data.documentId);
-      console.log("User data:", data);
       return {
         ...data,
         role: data.role.type,

@@ -11,8 +11,15 @@ const userPopulateFields = [
     'registrations.group'
 ]
 const groupPopulateFields = [
-    // 'facilitators',
-    'coverImage'
+    'coverImage',
+    'registrations',
+    'registrations.mothers',
+]
+const groupDetailsPopulateFields = [
+    'coverImage',
+    'registrations',
+    'registrations.mothers',
+    'facilitators'
 ]
 const eventPopulateFields = [
     'group',
@@ -29,7 +36,7 @@ const api = {
         return response.data;
     },
     getSupportGroupById: async (id: string) => {
-        const response = await strapi.get(`/api/groups/${id}`);
+        const response = await strapi.get(`/api/groups/${id}?${strapiUrlQueryBuilder(...groupDetailsPopulateFields)}`);
         if (!response.data) {
             throw new Error('Failed to fetch support group');
         }
