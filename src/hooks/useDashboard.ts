@@ -28,7 +28,7 @@ export default function useDashboard() {
                         district: group.district,
                         contacts: group.contacts
                     }))
-                ).sort((a, b) => b.memberCount - a.memberCount);
+                ).sort((a, b) => b.memberCount - a.memberCount).filter(item => item.memberCount > 0);
             const districtDistribution = Object.entries(districtFeatures).map(([districtName, district]) => ({
                 district: districtName,
                 supportGroupCount: district.supportGroups.length
