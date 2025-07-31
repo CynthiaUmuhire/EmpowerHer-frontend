@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Links from "@/routes/Links";
 import { toast } from "sonner";
-import CustomButton from "@/components/ui/customButton";
 import CustomMap from "@/components/ui/customMap";
 
 
@@ -15,7 +14,6 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D'
 
 export default function Dashboard() {
     const { stats, isLoading, isError } = useDashboard();
-    console.log('stats', stats)
     const navigate = useNavigate();
     useEffect(() => {
         const userRole = localStorage.getItem('userRole');
@@ -46,7 +44,7 @@ export default function Dashboard() {
     return (
         <section className="min-h-screen bg-secondary-50">
             {/* Header */}
-            <div className="bg-gradient-to-r from-secondary-400 to-secondary-200 text-secondary-50 py-8">
+            <div className="bg-gradient-to-r from-secondary-400 to-secondary-800 text-secondary-50 py-8">
                 <CenteredContent>
                     <div className="flex flex-col gap-4">
                         <h1 className="text-3xl md:text-4xl font-bold">Admin Dashboard</h1>
@@ -156,11 +154,6 @@ export default function Dashboard() {
                                 </div>
                             </CardContent>
                         </Card>
-                    </div>
-                    <div className="self-end">
-                        <CustomButton variant='secondary'>
-                            Export data
-                        </CustomButton>
                     </div>
                 </div>
             </CenteredContent>

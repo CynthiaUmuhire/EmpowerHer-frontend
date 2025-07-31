@@ -69,8 +69,6 @@ export default function ProfileUpdateModal({ userPrefilledData }: ProfileUpdateM
                             {errors.lastName && <p className="text-red-500 text-xs italic">{errors.lastName.message}</p>}
                             <EHInput placeholder={userData.email} label={'Email'} type='text' {...register('email')} />
                             {errors.email && <p className="text-red-500 text-xs italic">{errors.email.message}</p>}
-                            {/* <EHInput placeholder={userData.district} value={userData.district} label={'district'} type='text' {...register('district')} />
-                             */}
                             <CustomComboBox defaultDistrict={userData.district} setDistrict={setDistrict} {...register('district')} />
                             {errors.district && <p className="text-red-500 text-xs italic">{errors.district.message}</p>}
                             <EHInput placeholder={userData.age} label={'Your age'} type='text' {...register('age')} />

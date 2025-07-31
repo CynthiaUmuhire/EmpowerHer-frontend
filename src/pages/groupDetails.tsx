@@ -26,7 +26,7 @@ export default function GroupDetails() {
             {!isLoading && !isError && groupDetails && (
                 <>
                     {/* THe Hero section */}
-                    <div className="relative h-64 bg-gradient-to-r from-secondary-400 to-secondary-200 overflow-hidden">
+                    <div className="relative h-64 bg-gradient-to-r from-secondary-400 to-secondary-800 overflow-hidden">
                         <div
                             className={`absolute inset-0 bg-cover bg-center opacity-20 bg-[url(${groupDetails.coverImage})]`} // Currently not showing
                         />

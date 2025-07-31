@@ -10,11 +10,8 @@ export default function useAdminLogin() {
             return data;
         },
         onSuccess: (data) => {
-            console.log("Login successful", data);
             localStorage.setItem('token', data.data.token);
             localStorage.setItem('userRole', 'admin');
-            //     queryClient.invalidateQueries
-            //         // ({ queryKey: USER_QUERY_KEY })
         },
         onError: (error) => {
             console.error("Login failed:", error);

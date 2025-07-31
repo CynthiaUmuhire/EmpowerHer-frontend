@@ -28,7 +28,6 @@ export default function useEvents(filterParams: { title: string, category: strin
                     filterQuery += `&filters[rsvps][rsvpValue][$eqi]=${filterParams.option}`;
                 }
             }
-            console.log('Filter Query:', filterQuery);
             const response = await api.getEventsByFilters(filterQuery);
             if (!response.data) {
                 throw new Error('Failed to fetch events');

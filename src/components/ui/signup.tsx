@@ -35,7 +35,6 @@ export default function Signup() {
         resolver: zodResolver(formSchema),
     });
     const onSubmit = (data: RegistrationFormValues) => {
-        console.log('data')
         registerUser(data)
         if (isError) {
             toast.error("Registration failed. Please check your details and try again.");

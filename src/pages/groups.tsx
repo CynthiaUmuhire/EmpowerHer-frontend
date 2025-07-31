@@ -24,7 +24,6 @@ export default function Groups() {
     // Get group documentIds for approved registrations
     const approvedGroupIds = useMemo(() => {
         if (!user || !user.approvedRegistrations) return [];
-        console.log(user.approvedRegistrations, 'approvedRegistrations');
         return user.approvedRegistrations
             .map(reg => (reg as Registration & { group?: { documentId: string } }).group?.documentId)
             .filter(Boolean);
@@ -52,7 +51,7 @@ export default function Groups() {
 
     return (
         <section className="h-full mb-10">
-            <div className="h-64 bg-gradient-to-r from-secondary-400 to-secondary-200 text-secondary-50">
+            <div className="h-64 bg-gradient-to-r from-secondary-400 to-secondary-800 text-secondary-50">
                 <CenteredContent>
                     <div className=" h-full gap-5 flex flex-col items-start justify-center">
                         <h1 className="font-bold text-2xl md:text-7xl">Support groups</h1>

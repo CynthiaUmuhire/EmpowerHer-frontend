@@ -1,9 +1,11 @@
+import queryClient from "@/api/queryClient";
 import { Card, CardContent } from "@/components/ui/card";
 import CenteredContent from "@/components/ui/CenteredContent";
 import CustomButton from "@/components/ui/customButton";
 import ProfileUpdateModal from "@/components/ui/profileUpdateModal";
 import Spinner from "@/components/ui/spinner";
 import TypeBadge from "@/components/ui/typeBadge";
+import { USER_QUERY_KEY } from "@/constants/queryKeys";
 import useUserInfo from "@/hooks/useUserInfo";
 import Links from "@/routes/Links";
 import { RegistrationStatus } from "@/types";
@@ -12,10 +14,12 @@ import { useNavigate } from "react-router-dom";
 export default function Profile() {
     const { user, isLoading } = useUserInfo();
     const navigate = useNavigate();
+    const userRole = localStorage.getItem('userRole')
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('userRole');
         localStorage.removeItem('userId');
+        queryClient.removeQueries({ queryKey: USER_QUERY_KEY })
         navigate(Links.auth.Login, { replace: true });
     }
     const getBadgeColors = (status: RegistrationStatus) => {
@@ -33,12 +37,12 @@ export default function Profile() {
 
     return (
         <section className="flex flex-col gap-20 py-20">
-            {isLoading && (<section>
+            {userRole !== 'admin' && isLoading && (<section>
                 <CenteredContent>
                     <Spinner />
                 </CenteredContent>
             </section>)}
-            {!isLoading && user && (
+            {userRole !== 'admin' && !isLoading && user && (
                 <>
                     <section>
                         <CenteredContent>

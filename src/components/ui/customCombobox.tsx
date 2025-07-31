@@ -28,7 +28,6 @@ export default function CustomComboBox({ defaultDistrict, setDistrict }: { defau
 
     const handleClose = (district: string) => {
         setDistrict(district)
-        console.log(value)
         setOpen(false)
     }
     return (
@@ -38,7 +37,7 @@ export default function CustomComboBox({ defaultDistrict, setDistrict }: { defau
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-[200px] justify-between  bg-secondary-50 hover:bg-secondary-100/50"
+                    className="w-[200px] justify-between  bg-secondary-50 hover:bg-secondary-100/50 cursor-pointer"
                 >
                     {value
                         ? districts.find((district) => district === value)
@@ -56,8 +55,8 @@ export default function CustomComboBox({ defaultDistrict, setDistrict }: { defau
                                 <CommandItem
                                     key={district}
                                     value={district}
+                                    className="cursor-pointer"
                                     onSelect={(currentValue) => {
-                                        console.log('currenValue', currentValue)
                                         setValue(currentValue)
                                         handleClose(currentValue)
                                     }}

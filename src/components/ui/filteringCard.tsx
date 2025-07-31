@@ -5,7 +5,6 @@ import EHInput from './EHInput';
 interface FilteringCardProps {
     searchTerm: string;
     onSearchChange: (term: string) => void;
-    // searchRef: React.Ref<HTMLInputElement>
 
     categories: string[];
     selectedCategory: string;
@@ -25,7 +24,6 @@ interface FilteringCardProps {
 const FilteringCard: React.FC<FilteringCardProps> = ({
     searchTerm,
     onSearchChange,
-    // searchRef,
     categoryLabel = "Categories",
     categories,
     selectedCategory,
@@ -50,50 +48,44 @@ const FilteringCard: React.FC<FilteringCardProps> = ({
                         placeholder={'Search....'}
                         defaultValue={searchTerm}
                         onChange={handleSearchInput}
-                    // ref={searchRef}
                     />
                 </div>
 
                 {/* Category Filter */}
-                <div className='flex md:justify-center bg-secondary-50'>
+                <div className='flex md:justify-center bg-secondary-50 '>
                     <Select value={selectedCategory} onValueChange={onCategoryChange}>
-                        <SelectTrigger>
+                        <SelectTrigger className='cursor-pointer'>
                             {categoryIcon}
                             <SelectValue placeholder={categoryLabel} />
                         </SelectTrigger>
-                        <SelectContent className='bg-secondary-50'>
-                            <SelectItem value="all">{categoryLabel}</SelectItem>
+                        <SelectContent className='bg-secondary-50 '>
+                            <SelectItem className='cursor-pointer' value="all">{categoryLabel}</SelectItem>
                             {categories.map((category, index) => (
-                                <SelectItem key={index} value={category}>{category}</SelectItem>
+                                <SelectItem className='cursor-pointer' key={index} value={category}>{category}</SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
                 </div>
 
                 {/* Options Filter */}
-                <div>
+                <div >
                     <Select value={selectedOption} onValueChange={onOptionChange}>
-                        <SelectTrigger>
+                        <SelectTrigger className='cursor-pointer'>
                             {optionIcon}
                             <SelectValue placeholder={optionLabel} />
                         </SelectTrigger>
                         <SelectContent className='bg-secondary-50'>
-                            <SelectItem value="all">{optionLabel}</SelectItem>
+                            <SelectItem className='cursor-pointer' value="all">{optionLabel}</SelectItem>
                             {options.map(option => {
                                 const value = typeof option === 'string' ? option : option.value;
                                 const label = typeof option === 'string' ? option : option.label;
                                 return (
-                                    <SelectItem key={value} value={value}>{label}</SelectItem>
+                                    <SelectItem className='cursor-pointer' key={value} value={value}>{label}</SelectItem>
                                 );
                             })}
                         </SelectContent>
                     </Select>
                 </div>
-                {/* <div className='flex md:justify-end'>
-                    <CustomButton variant={'secondary'} onClick={handleOnClick}>
-                        Filter
-                    </CustomButton>
-                </div> */}
             </div>
         </div>
     );

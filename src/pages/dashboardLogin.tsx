@@ -34,7 +34,7 @@ function DashboardLogin() {
     }, [isSuccess, navigate]);
     return (
         <section className="flex flex-col gap-20 mb-20">
-            <div className="h-64 bg-gradient-to-r from-secondary-400 to-secondary-200 text-secondary-50">
+            <div className="h-64 bg-gradient-to-r from-secondary-400 to-secondary-800 text-secondary-50">
                 <CenteredContent>
                     <div className=" h-full gap-5 flex flex-col items-start justify-center">
                         <h1 className="font-bold text-2xl md:text-7xl">User Analytics Dashboard</h1>

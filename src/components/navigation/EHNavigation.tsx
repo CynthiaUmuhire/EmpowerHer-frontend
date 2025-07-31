@@ -21,10 +21,11 @@ export function EHNavigation() {
             return link[0] === 'Dashboard'
         }
     });
+    const homePage = userRole !== 'admin' ? Links.protected.Home : Links.protected.Dashboard
     return (
         <section>
             <div className="flex items-center justify-between bg-secondary-50 p-4">
-                <Link to={Links.protected.Home}>
+                <Link to={homePage}>
                     <strong className="text-secondary-800">EmpowerHer</strong>
                 </Link>
                 <div className="md:flex gap-4 hidden ">

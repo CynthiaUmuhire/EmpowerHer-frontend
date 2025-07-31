@@ -22,7 +22,7 @@ export default function Home() {
               <>
                 <h1 className="text-lg md:text-4xl font-bold text-primary">
                   Welcome back,
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-400">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary-400 to-secondary-800">
                     {" "}{user.lastName} {user.firstName}
                   </span>
                 </h1>
@@ -35,11 +35,11 @@ export default function Home() {
                   <Badge Icon={Award} count={`${dayjs(user.createdAt).month()} ${dayjs(user.createdAt).year()}`} text="Member Since" />
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link to={Links.protected.Groups} className="bg-gradient-to-r from-primary-800 to-secondary-800 hover:from-primary-400 hover:to-secondary-400 text-secondary-50 px-4 w-3xs md:w-sm md:px-8 py-2 md:py-3 text-sm md:text-lg flex items-center rounded-md">
+                  <Link to={Links.protected.Groups} className="bg-gradient-to-r from-secondary-400 to-secondary-800 hover:from-primary-400 hover:to-secondary-400 text-secondary-50 px-4 w-3xs md:w-sm md:px-8 py-2 md:py-3 text-sm md:text-lg flex items-center rounded-md">
                     View Support Groups
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Link>
-                  <Link to={Links.protected.Events} className="bg-gradient-to-r from-primary-800 to-secondary-800 hover:from-primary-400 hover:to-secondary-400 text-secondary-50 px-4  w-3xs md:w-sm  md:px-8 py-2 md:py-3 text-sm md:text-lg flex items-center rounded-md">
+                  <Link to={Links.protected.Events} className="bg-gradient-to-r from-secondary-400 to-secondary-800 hover:from-primary-400 hover:to-secondary-400 text-secondary-50 px-4  w-3xs md:w-sm  md:px-8 py-2 md:py-3 text-sm md:text-lg flex items-center rounded-md">
                     Upcoming Events
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Link>
@@ -58,7 +58,7 @@ function Badge({ Icon, count, text
 }: { Icon: ComponentType, count: number | string, text: string }) {
   return (
     <div className="bg-secondary-50/75 backdrop-blur-sm w-3xs rounded-2xl p-3 md:p-6 shadow-sm border border-seconday-400 text-center">
-      <div className="flex text-secondary-50 items-center justify-center w-12 h-12 bg-gradient-to-br from-primary-400 to-secondary-400 rounded-xl mx-auto mb-4">
+      <div className="flex text-secondary-50 items-center justify-center w-12 h-12 bg-gradient-to-r from-secondary-400 to-secondary-800 rounded-xl mx-auto mb-4">
         <Icon />
       </div>
       <p className="font-bold text-primary">{text}</p>

@@ -10,8 +10,6 @@ const strapi = axios.create({
 
 
 });
-// Log the admin a secret token to the console for debugging purposes with ****
-console.log('Admin token', ADMIN_API_TOKEN.replace(/d/g, '*'));
 strapi.interceptors.request.use(
     config => {
         if (config.headers.Authorization) {
